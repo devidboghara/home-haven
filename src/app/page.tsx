@@ -23,17 +23,16 @@ export default function Home() {
   ];
 
   return (
-    <main className="relative min-h-screen bg-[#020617] overflow-x-hidden">
-      <Navbar />
+<main className="relative min-h-screen bg-[#0f172a] overflow-x-hidden">      <Navbar />
 
       {/* 1. HERO SECTION (Remains Perfect) */}
-      <section className="relative w-full py-24 md:py-40 flex items-center justify-center overflow-hidden">
+      <section className="relative z-30 -mt-10 bg-[#0f172a] rounded-none">
         <div 
           className="absolute inset-0 z-0 bg-cover bg-center"
           style={{ backgroundImage: "url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=2000&auto=format&fit=crop')" }}
         />
-        <div className="absolute inset-0 bg-black/60 z-10" />
-        
+        <div className="flex items-center gap-2 p-1.5 bg-slate-800/50 backdrop-blur-2xl shadow-2xl rounded-full border border-slate-700">
+        </div>
         <div className="relative z-20 w-full max-w-5xl mx-auto px-6 text-center">
           <motion.span 
             initial={{ y: -20, opacity: 0 }}
