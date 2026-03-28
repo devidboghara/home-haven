@@ -1,40 +1,46 @@
-import Navbar from "@/components/Navbar"; // Ye hai 'Import' line
+import Navbar from "@/components/Navbar";
+import PropertyCard from "@/components/PropertyCard";
 
 export default function Home() {
+  const listings = [
+    { id: 1, title: "Modern Sky Villa", price: "85.5 L", location: "Satellite, Ahmedabad", rating: 4.8 },
+    { id: 2, title: "Royal Heritage", price: "1.2 Cr", location: "SG Highway, Ahmedabad", rating: 4.9 },
+    { id: 3, title: "Cozy Studio", price: "25.0 L", location: "Bopal, Ahmedabad", rating: 4.5 },
+    { id: 4, title: "Green Valley", price: "60.0 L", location: "GIFT City, Gandhinagar", rating: 4.7 },
+  ];
+
   return (
-    <main className="min-h-screen bg-slate-50">
-      <Navbar /> {/* Navbar yahan dikhega */}
-      
-      {/* 2. Banner + Quote Section */}
-      <section className="relative h-[60vh] w-full flex items-center justify-center overflow-hidden">
-        {/* Background Image/Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-r from-blue-600/20 to-indigo-600/10 z-0" />
-        
-        <div className="relative z-10 text-center px-4">
-          <h2 className="text-4xl md:text-6xl font-bold text-slate-900 tracking-tight">
-            Find Your <span className="text-blue-600">Dream Haven</span>
+    <main className="min-h-screen bg-[#F8FAFC]">
+      <Navbar />
+
+      {/* Hero Banner Section */}
+      <section className="px-4 py-12 bg-gradient-to-b from-blue-50 to-[#F8FAFC]">
+        <div className="max-w-xl mx-auto text-center">
+          <h2 className="text-3xl font-extrabold text-slate-900 leading-tight">
+            Find your <span className="text-blue-600">Perfect Place</span> to live.
           </h2>
-          <p className="mt-4 text-lg text-slate-600 max-w-lg mx-auto italic">
+          <p className="mt-3 text-sm text-slate-500 italic">
             "The magic of a home is that it feels like the world is standing still."
           </p>
         </div>
       </section>
 
-      {/* 3. Property Grid (Mobile: 2 Columns) */}
-      <section className="p-4 max-w-7xl mx-auto">
-        <h3 className="text-xl font-semibold mb-6 text-slate-800">Featured Properties</h3>
-        
-        {/* grid-cols-2 mobile ke liye hai, md:grid-cols-4 desktop ke liye */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-          {/* Ye ek Dummy Card hai, ise baad mein component banayenge */}
-          {[1, 2, 3, 4].map((item) => (
-            <div key={item} className="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
-              <div className="aspect-square bg-slate-200" />
-              <div className="p-2">
-                <p className="text-sm font-bold text-blue-600">$2,500</p>
-                <p className="text-[10px] text-slate-500 truncate">Modern Villa, Gujarat</p>
-              </div>
-            </div>
+      {/* Grid Section - Mobile grid-cols-2 is here! */}
+      <section className="px-4 pb-20">
+        <div className="flex justify-between items-center mb-5">
+          <h3 className="text-lg font-bold text-slate-800">Featured Homes</h3>
+          <button className="text-xs font-bold text-blue-600 bg-blue-50 px-3 py-1.5 rounded-full">View All</button>
+        </div>
+
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          {listings.map((item) => (
+            <PropertyCard 
+              key={item.id}
+              title={item.title}
+              price={item.price}
+              location={item.location}
+              rating={item.rating}
+            />
           ))}
         </div>
       </section>
