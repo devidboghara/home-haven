@@ -13,14 +13,15 @@ export default function Home() {
     { name: "Offices", icon: <Warehouse size={18} /> },
   ];
 
-  const listings = [
-    { id: 1, title: "Modern Sky Villa", price: "85.5 L", location: "Satellite, Ahmedabad", rating: 4.8, image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c" },
-    { id: 2, title: "Royal Heritage", price: "1.2 Cr", location: "SG Highway, Ahmedabad", rating: 4.9, image: "https://images.unsplash.com/photo-1600566753190-17f0bb2a6c3e" },
-    { id: 3, title: "Cozy Studio", price: "25.0 L", location: "Bopal, Ahmedabad", rating: 4.5, image: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750" },
-    { id: 4, title: "Green Valley Resort", price: "60.0 L", location: "GIFT City, Gandhinagar", rating: 4.7, image: "https://images.unsplash.com/photo-1605276374104-ddd2ba1af56e" },
-    { id: 5, title: "Lakeview Mansion", price: "3.5 Cr", location: "Kankaria, Ahmedabad", rating: 5.0, image: "https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde" },
-    { id: 6, title: "City Center Office", price: "45.0 L", location: "Navrangpura, Ahmedabad", rating: 4.6, image: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab" },
-  ];
+  // Listings array mein images ke peeche parameters add kiye hain optimization ke liye
+const listings = [
+  { id: 1, title: "Modern Sky Villa", price: "85.5 L", location: "Satellite, Ahmedabad", rating: 4.8, image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=400&q=60" },
+  { id: 2, title: "Royal Heritage", price: "1.2 Cr", location: "SG Highway, Ahmedabad", rating: 4.9, image: "https://images.unsplash.com/photo-1600566753190-17f0bb2a6c3e?auto=format&fit=crop&w=400&q=60" },
+  { id: 3, title: "Cozy Studio", price: "25.0 L", location: "Bopal, Ahmedabad", rating: 4.5, image: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=400&q=60" },
+  { id: 4, title: "Green Valley Resort", price: "60.0 L", location: "GIFT City, Gandhinagar", rating: 4.7, image: "https://images.unsplash.com/photo-1605276374104-ddd2ba1af56e?auto=format&fit=crop&w=400&q=60" },
+  { id: 5, title: "Lakeview Mansion", price: "3.5 Cr", location: "Kankaria, Ahmedabad", rating: 5.0, image: "https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?auto=format&fit=crop&w=400&q=60" },
+  { id: 6, title: "City Center Office", price: "45.0 L", location: "Navrangpura, Ahmedabad", rating: 4.6, image: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=400&q=60" },
+];
 
   return (
     <main className="relative min-h-screen bg-[#F8FAFC] overflow-x-hidden">
