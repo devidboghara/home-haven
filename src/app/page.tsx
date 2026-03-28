@@ -1,5 +1,8 @@
+"use client"; // Animations ke liye zaroori hai
+
 import Navbar from "@/components/Navbar";
 import PropertyCard from "@/components/PropertyCard";
+import { motion } from "framer-motion";
 
 export default function Home() {
   const listings = [
@@ -10,72 +13,84 @@ export default function Home() {
   ];
 
   return (
-    <main className="min-h-screen bg-white">
+    <main className="min-h-screen bg-white overflow-x-hidden">
       <Navbar />
 
-      {/* HERO SECTION */}
-      <section className="relative h-[70vh] md:h-[80vh] flex flex-col items-center justify-start overflow-hidden">
-        {/* BACKGROUND IMAGE - Crystal Clear (No Blur) */}
+      {/* HERO SECTION - Ab Clean hai, bina Search Bar ke */}
+      <section className="relative h-[60vh] flex flex-col items-center justify-center">
         <div 
-          className="absolute inset-0 z-0 bg-cover bg-center transition-transform duration-1000 hover:scale-105"
+          className="absolute inset-0 z-0 bg-cover bg-center bg-fixed" // bg-fixed se Parallax effect aayega
           style={{ backgroundImage: "url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=2000&auto=format&fit=crop')" }}
         />
-        
-        {/* LIGHT OVERLAY - Only for text readability */}
         <div className="absolute inset-0 z-10 bg-black/40" />
 
-        {/* BOTTOM GRADIENT - To fix the Hard-Cut issue */}
-        <div className="absolute inset-x-0 bottom-0 h-32 z-20 bg-gradient-to-t from-white to-transparent" />
-
-        <div className="relative z-30 w-full max-w-5xl mx-auto px-6 pt-16 md:pt-24 text-center">
-          {/* Quote - Pushed Higher */}
-          <p className="mb-4 text-blue-300 text-xs md:text-sm font-bold tracking-[0.3em] uppercase opacity-90">
-             "Luxury is in each detail"
+        <motion.div 
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1 }}
+          className="relative z-20 text-center px-6"
+        >
+          <p className="mb-4 text-blue-300 text-xs font-bold tracking-[0.4em] uppercase">
+             Luxury is in each detail
           </p>
-          <h2 className="text-4xl md:text-7xl font-black text-white leading-[1.1] drop-shadow-2xl">
-            Find Your <span className="text-blue-400">Haven</span>
+          <h2 className="text-5xl md:text-8xl font-black text-white leading-tight">
+            Luxe<span className="text-blue-500">Lair</span>
           </h2>
-          <p className="mt-4 text-sm md:text-lg text-slate-100 max-w-xl mx-auto font-medium opacity-90">
-            The magic of a home is that it feels like the world is standing still.
-          </p>
-        </div>
-
-        {/* STYLISH SEARCH BAR - Positioned near the bottom (3% gap) */}
-        <div className="relative z-30 mt-auto mb-8 w-full max-w-3xl px-6">
-          <div className="flex items-center p-1.5 bg-white/20 backdrop-blur-xl rounded-2xl border border-white/30 shadow-2xl overflow-hidden">
-            <input 
-              type="text" 
-              placeholder="Where do you want to live?" 
-              className="flex-1 px-6 py-3 md:py-4 rounded-xl bg-white text-slate-900 focus:outline-none placeholder:text-slate-400 text-sm font-semibold"
-            />
-            <button className="bg-blue-600 hover:bg-blue-700 text-white px-6 md:px-10 py-3 md:py-4 rounded-xl font-bold transition-all text-xs md:text-sm uppercase tracking-widest ml-2">
-              Search
-            </button>
-          </div>
-        </div>
+          <motion.p 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 0.9 }}
+            transition={{ delay: 0.5, duration: 1 }}
+            className="mt-4 text-sm md:text-xl text-slate-100 italic"
+          >
+            "The magic of a home is that it feels like the world is standing still."
+          </motion.p>
+        </motion.div>
       </section>
 
-      {/* LISTINGS SECTION */}
-      <section className="relative z-30 px-4 py-12 max-w-7xl mx-auto">
-        <div className="flex justify-between items-end mb-10 px-2">
-          <div>
-            <h3 className="text-2xl font-black text-slate-900 tracking-tight">Featured Listings</h3>
-            <div className="h-1 w-12 bg-blue-600 mt-1 rounded-full" />
-          </div>
-          <button className="text-[10px] font-black text-blue-600 uppercase tracking-widest border-b-2 border-blue-600 pb-1">
-            View All
+      {/* SEARCH SECTION - Ab ye Hero ke niche float kar raha hai */}
+      <div className="relative z-30 -mt-10 px-6 max-w-4xl mx-auto">
+        <motion.div 
+          initial={{ scale: 0.9, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          transition={{ delay: 0.8 }}
+          className="flex items-center p-2 bg-white shadow-[0_20px_50px_rgba(8,_112,_184,_0.1)] rounded-3xl border border-slate-100"
+        >
+          <input 
+            type="text" 
+            placeholder="Search by location, price or BHK..." 
+            className="flex-1 px-6 py-4 rounded-2xl bg-transparent text-slate-900 focus:outline-none font-medium"
+          />
+          <button className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-2xl font-bold transition-all shadow-lg shadow-blue-200 active:scale-95">
+            Find Home
           </button>
-        </div>
+        </motion.div>
+      </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8">
-          {listings.map((item) => (
-            <PropertyCard 
+      {/* LISTINGS SECTION - Scroll Animations ke saath */}
+      <section className="px-4 py-16 max-w-7xl mx-auto">
+        <motion.div 
+          initial={{ opacity: 0, x: -50 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true }}
+          className="flex justify-between items-end mb-12 px-2"
+        >
+          <div>
+            <h3 className="text-3xl font-black text-slate-900">Featured Listings</h3>
+            <div className="h-1.5 w-16 bg-blue-600 mt-2 rounded-full" />
+          </div>
+        </motion.div>
+
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-10">
+          {listings.map((item, index) => (
+            <motion.div
               key={item.id}
-              title={item.title}
-              price={item.price}
-              location={item.location}
-              rating={item.rating}
-            />
+              initial={{ opacity: 0, y: 50 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: index * 0.1 }} // Ek ke baad ek card aayega
+            >
+              <PropertyCard {...item} />
+            </motion.div>
           ))}
         </div>
       </section>
