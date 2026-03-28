@@ -3,10 +3,11 @@
 import Navbar from "@/components/Navbar";
 import PropertyCard from "@/components/PropertyCard";
 import { motion } from "framer-motion";
-import { Building2, Palmtree, Warehouse, Search } from "lucide-react";
+import { Building2, Palmtree, Warehouse, Search, LayoutGrid } from "lucide-react";
 
 export default function Home() {
   const categories = [
+    { name: "All", icon: <LayoutGrid size={18} /> },
     { name: "Villas", icon: <Palmtree size={18} /> },
     { name: "Apartments", icon: <Building2 size={18} /> },
     { name: "Offices", icon: <Warehouse size={18} /> },
@@ -22,23 +23,22 @@ export default function Home() {
   ];
 
   return (
-    <main className="relative min-h-screen bg-white overflow-x-hidden">
+    <main className="relative min-h-screen bg-[#020617] overflow-x-hidden">
       <Navbar />
 
-      {/* 1. HERO SECTION - Now Balanced (Not Full Screen) */}
-      <section className="relative w-full py-24 md:py-32 flex items-center justify-center overflow-hidden">
+      {/* 1. HERO SECTION (Remains Perfect) */}
+      <section className="relative w-full py-24 md:py-40 flex items-center justify-center overflow-hidden">
         <div 
-          className="absolute inset-0 z-0 bg-cover bg-center transition-transform duration-1000 hover:scale-105"
+          className="absolute inset-0 z-0 bg-cover bg-center"
           style={{ backgroundImage: "url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=2000&auto=format&fit=crop')" }}
         />
-        <div className="absolute inset-0 bg-black/50 z-10" />
+        <div className="absolute inset-0 bg-black/60 z-10" />
         
         <div className="relative z-20 w-full max-w-5xl mx-auto px-6 text-center">
-          {/* New Line - Higher */}
           <motion.span 
             initial={{ y: -20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
-            className="text-blue-300 text-[10px] md:text-xs font-black tracking-[0.5em] uppercase mb-4 block"
+            className="text-blue-400 text-[10px] md:text-xs font-black tracking-[0.5em] uppercase mb-4 block"
           >
             Find your perfect place to live
           </motion.span>
@@ -49,67 +49,74 @@ export default function Home() {
           >
             Luxe<span className="text-blue-500 italic">Lair.</span>
           </motion.h2>
-          <p className="mt-5 text-sm md:text-xl text-slate-100 italic max-w-xl mx-auto opacity-90">
+          <p className="mt-5 text-sm md:text-xl text-slate-100 italic max-w-xl mx-auto opacity-80">
              "The magic of a home is that it feels like the world is standing still."
           </p>
         </div>
       </section>
 
-      {/* 2. SEARCH & LISTINGS SECTION - Overlapping with Square Corners */}
-      <section className="relative z-30 -mt-10 bg-white shadow-[0_-20px_60px_rgba(0,0,0,0.15)] rounded-none">
+      {/* 2. SEARCH & CONTENT SECTION (Dark Theme) */}
+      <section className="relative z-30 -mt-10 bg-[#020617] rounded-none">
         
-        {/* SLIM SEARCH BAR - Perfectly Overlapping */}
+        {/* SLIM SEARCH BAR */}
         <div className="px-4 -translate-y-1/2 max-w-xl mx-auto">
-          <div className="flex items-center gap-2 p-1.5 bg-white/90 backdrop-blur-xl shadow-2xl rounded-full border border-slate-100">
-            <div className="pl-5 text-slate-400"><Search size={16} /></div>
-            <input type="text" placeholder="Locality, Project..." className="flex-1 bg-transparent py-3 text-xs font-bold text-slate-800 outline-none" />
+          <div className="flex items-center gap-2 p-1.5 bg-slate-900/80 backdrop-blur-2xl shadow-2xl rounded-full border border-slate-800">
+            <div className="pl-5 text-slate-500"><Search size={16} /></div>
+            <input type="text" placeholder="Locality, Project..." className="flex-1 bg-transparent py-3 text-xs font-bold text-white outline-none placeholder:text-slate-600" />
             <button className="bg-blue-600 text-white px-8 py-3 rounded-full text-[10px] font-black uppercase tracking-widest shadow-lg active:scale-95">Search</button>
           </div>
         </div>
 
-        {/* CATEGORIES */}
-        <div className="flex justify-center gap-4 px-6 overflow-x-auto no-scrollbar py-6 border-b border-slate-100">
-          {categories.map((cat, i) => (
-            <button key={i} className="flex items-center gap-2 px-6 py-3 bg-white border border-slate-100 rounded-2xl text-[9px] font-black text-slate-500 uppercase tracking-[0.2em] hover:border-blue-600 transition-all">
-              {cat.icon} {cat.name}
-            </button>
-          ))}
+        {/* CATEGORIES (Space Filler) */}
+        <div className="max-w-7xl mx-auto px-6 mb-4">
+          <div className="flex justify-center gap-3 overflow-x-auto no-scrollbar py-4 border-b border-slate-900">
+            {categories.map((cat, i) => (
+              <button key={i} className={`flex items-center gap-2 px-5 py-2.5 rounded-2xl text-[9px] font-black uppercase tracking-widest transition-all ${i === 0 ? 'bg-blue-600 text-white' : 'bg-slate-900 text-slate-400 border border-slate-800 hover:border-blue-600'}`}>
+                {cat.icon} {cat.name}
+              </button>
+            ))}
+          </div>
         </div>
 
         {/* FEATURED LISTINGS */}
-        <div className="max-w-7xl mx-auto px-6 py-16">
-          <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-16 gap-4">
+        <div className="max-w-7xl mx-auto px-6 py-8">
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-10 gap-2">
             <div>
-              <h3 className="text-4xl font-black text-slate-900 tracking-tighter">Featured Listings</h3>
-              <p className="text-slate-400 text-[10px] font-bold mt-2 uppercase tracking-[0.3em]">Ahmedabad's Finest Selection</p>
+              <h3 className="text-3xl font-black text-white tracking-tighter">Featured Listings</h3>
+              <p className="text-blue-500 text-[10px] font-bold uppercase tracking-[0.3em]">Top properties in Gujarat</p>
             </div>
-            <button className="text-[10px] font-black text-blue-600 border-b-2 border-blue-600 pb-1 tracking-widest uppercase">
+            <button className="text-[10px] font-black text-slate-400 uppercase tracking-widest border-b border-slate-800 pb-1 hover:text-blue-500 transition-colors">
               View All
             </button>
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-8 md:gap-12">
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-10">
             {listings.map((item, index) => (
               <motion.div
                 key={item.id}
-                initial={{ opacity: 0, y: 40 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-100px" }}
-                transition={{ delay: index * 0.1 }}
+                // First two cards (index 0 and 1) will fade in immediately
+                initial={index < 2 ? { opacity: 0 } : { opacity: 0, y: 40 }}
+                animate={index < 2 ? { opacity: 1 } : {}}
+                whileInView={index >= 2 ? { opacity: 1, y: 0 } : {}}
+                viewport={{ once: true, margin: "-50px" }}
+                transition={{ 
+                  delay: index < 2 ? 0.2 : (index * 0.1), 
+                  duration: 0.5 
+                }}
               >
+                {/* Yahan aapka PropertyCard component dark mode support karna chahiye */}
                 <PropertyCard {...item} />
               </motion.div>
             ))}
           </div>
         </div>
 
-        {/* 4. Real Website Detail Section (CTA) */}
-        <div className="px-6 py-32 text-center bg-slate-50 mt-12 border-t border-slate-100">
-           <span className="text-xs font-black text-blue-600 uppercase tracking-[0.4em]">Get Started</span>
-           <h4 className="text-3xl md:text-6xl font-black text-slate-900 leading-tight mt-6">Ready to find <br className="hidden md:block"/> your dream home?</h4>
-           <p className="mt-6 text-slate-500 font-medium text-sm md:text-xl max-w-2xl mx-auto leading-relaxed">Join 10,000+ families who found their perfect haven with LuxeLair.</p>
-           <button className="mt-12 bg-slate-900 text-white px-12 py-5 rounded-full font-black uppercase text-[10px] tracking-[0.3em] shadow-2xl shadow-slate-200 hover:bg-blue-600 transition-all active:scale-95">
-             Talk to an Expert
+        {/* DARK CTA SECTION */}
+        <div className="px-6 py-24 text-center bg-slate-950 border-t border-slate-900 mt-20">
+           <span className="text-[10px] font-black text-blue-500 uppercase tracking-[0.5em]">Exclusive Service</span>
+           <h4 className="text-3xl md:text-5xl font-black text-white leading-tight mt-6">Ready to find <br className="hidden md:block"/> your dream home?</h4>
+           <button className="mt-10 bg-blue-600 text-white px-10 py-4 rounded-full font-black uppercase text-[10px] tracking-[0.3em] shadow-2xl shadow-blue-900/20 hover:bg-blue-700 transition-all active:scale-95">
+             Contact Luxury Expert
            </button>
         </div>
       </section>
