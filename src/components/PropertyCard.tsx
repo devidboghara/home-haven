@@ -1,36 +1,36 @@
 import Image from "next/image";
-import { MapPin, Star } from "lucide-react"; // Icons ke liye
+import { MapPin, Star } from "lucide-react";
 
-export default function PropertyCard({ title, price, location, rating }: any) {
+export default function PropertyCard({ title, price, location, rating, image }: any) {
   return (
-    <div className="group bg-white rounded-[2rem] p-2 shadow-sm border border-slate-100 hover:shadow-md transition-all active:scale-95">
-      {/* Image Container - Aspect Square for 2-column grid */}
-      <div className="relative aspect-square rounded-[1.8rem] overflow-hidden bg-slate-100">
-        <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent z-10" />
-        <div className="absolute top-2 right-2 z-20 bg-white/80 backdrop-blur-md px-2 py-1 rounded-xl flex items-center gap-1">
+    <div className="group bg-white rounded-[1.5rem] p-2 shadow-sm border border-slate-100 hover:shadow-xl transition-all duration-300 active:scale-95 cursor-pointer">
+      {/* Image Container */}
+      <div className="relative aspect-[4/3] rounded-[1.2rem] overflow-hidden bg-slate-100">
+        <img 
+          src={image || "https://images.unsplash.com/photo-1564013799919-ab600027ffc6"} 
+          alt={title}
+          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+        />
+        <div className="absolute top-2 right-2 z-20 bg-white/90 backdrop-blur-md px-2 py-1 rounded-lg flex items-center gap-1 shadow-sm">
           <Star className="size-3 text-yellow-500 fill-yellow-500" />
           <span className="text-[10px] font-bold text-slate-700">{rating}</span>
-        </div>
-        {/* Placeholder Box - Baad mein Image tag se replace karenge */}
-        <div className="w-full h-full bg-blue-50 flex items-center justify-center text-blue-300 font-bold text-xs">
-          LuxeLair
         </div>
       </div>
 
       {/* Content */}
       <div className="mt-3 px-2 pb-2">
         <div className="flex flex-col">
-          <span className="text-blue-600 font-extrabold text-sm tracking-tight">
+          <span className="text-[#0051A1] font-black text-sm tracking-tight">
             ₹{price}
           </span>
-          <h3 className="text-[11px] font-semibold text-slate-800 truncate mt-0.5">
+          <h3 className="text-[12px] font-bold text-slate-900 truncate mt-0.5 uppercase tracking-tight">
             {title}
           </h3>
         </div>
         
         <div className="flex items-center gap-1 mt-1 opacity-70">
           <MapPin className="size-2.5 text-slate-400" />
-          <span className="text-[9px] text-slate-500 truncate">{location}</span>
+          <span className="text-[9px] font-medium text-slate-500 truncate">{location}</span>
         </div>
       </div>
     </div>
