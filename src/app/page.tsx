@@ -10,56 +10,64 @@ export default function Home() {
   ];
 
   return (
-    <main className="min-h-screen bg-[#F8FAFC]">
+    <main className="min-h-screen bg-white">
       <Navbar />
 
-      {/* HERO SECTION - Now with Image, Overlay, and Balanced Height */}
-      <section className="relative px-6 py-28 md:py-36 overflow-hidden">
-        {/* BACKGROUND IMAGE - Using Unsplash for now */}
+      {/* HERO SECTION */}
+      <section className="relative h-[70vh] md:h-[80vh] flex flex-col items-center justify-start overflow-hidden">
+        {/* BACKGROUND IMAGE - Crystal Clear (No Blur) */}
         <div 
-          className="absolute inset-0 z-0 bg-cover bg-center"
-          style={{ backgroundImage: "url('https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=2000&auto=format&fit=crop')" }}
+          className="absolute inset-0 z-0 bg-cover bg-center transition-transform duration-1000 hover:scale-105"
+          style={{ backgroundImage: "url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=2000&auto=format&fit=crop')" }}
         />
         
-        {/* DARK OVERLAY - To make text readable */}
-        <div className="absolute inset-0 z-10 bg-black/60 backdrop-blur-sm" />
+        {/* LIGHT OVERLAY - Only for text readability */}
+        <div className="absolute inset-0 z-10 bg-black/40" />
 
-        <div className="relative z-20 max-w-4xl mx-auto text-center">
-          <span className="inline-block px-4 py-1.5 mb-6 text-[10px] font-bold tracking-widest text-blue-100 uppercase bg-blue-600/30 backdrop-blur-md rounded-full border border-blue-400/20">
-            Premium Real Estate Experience
-          </span>
-          <h2 className="text-4xl md:text-6xl font-black text-white leading-[1.1] tracking-tight">
-            Find your <span className="text-blue-300">Perfect Haven</span> <br /> without the hassle.
-          </h2>
-          <p className="mt-6 text-sm md:text-lg text-slate-100 max-w-2xl mx-auto font-light leading-relaxed opacity-95">
-            "The magic of a home is that it feels like the world is standing still."
+        {/* BOTTOM GRADIENT - To fix the Hard-Cut issue */}
+        <div className="absolute inset-x-0 bottom-0 h-32 z-20 bg-gradient-to-t from-white to-transparent" />
+
+        <div className="relative z-30 w-full max-w-5xl mx-auto px-6 pt-16 md:pt-24 text-center">
+          {/* Quote - Pushed Higher */}
+          <p className="mb-4 text-blue-300 text-xs md:text-sm font-bold tracking-[0.3em] uppercase opacity-90">
+             "Luxury is in each detail"
           </p>
-          
-          {/* MODERN SEARCH BAR (Glassmorphism Effect) */}
-          <div className="mt-12 flex flex-col md:flex-row gap-2 p-2.5 bg-white/10 backdrop-blur-2xl rounded-[3rem] border border-white/10 shadow-2xl">
+          <h2 className="text-4xl md:text-7xl font-black text-white leading-[1.1] drop-shadow-2xl">
+            Find Your <span className="text-blue-400">Haven</span>
+          </h2>
+          <p className="mt-4 text-sm md:text-lg text-slate-100 max-w-xl mx-auto font-medium opacity-90">
+            The magic of a home is that it feels like the world is standing still.
+          </p>
+        </div>
+
+        {/* STYLISH SEARCH BAR - Positioned near the bottom (3% gap) */}
+        <div className="relative z-30 mt-auto mb-8 w-full max-w-3xl px-6">
+          <div className="flex items-center p-1.5 bg-white/20 backdrop-blur-xl rounded-2xl border border-white/30 shadow-2xl overflow-hidden">
             <input 
               type="text" 
-              placeholder="Search by City or Locality..." 
-              className="flex-1 px-8 py-5 rounded-[2.5rem] bg-white text-slate-900 focus:outline-none placeholder:text-slate-400 text-sm md:text-base font-semibold"
+              placeholder="Where do you want to live?" 
+              className="flex-1 px-6 py-3 md:py-4 rounded-xl bg-white text-slate-900 focus:outline-none placeholder:text-slate-400 text-sm font-semibold"
             />
-            <button className="bg-blue-600 hover:bg-blue-700 text-white px-10 py-5 rounded-[2.5rem] font-bold transition-all shadow-xl active:scale-95 text-sm uppercase tracking-wider">
-              Search Now
+            <button className="bg-blue-600 hover:bg-blue-700 text-white px-6 md:px-10 py-3 md:py-4 rounded-xl font-bold transition-all text-xs md:text-sm uppercase tracking-widest ml-2">
+              Search
             </button>
           </div>
         </div>
       </section>
 
-      {/* GRID SECTION - Mobile 2 Columns (Rest remains same) */}
-      <section className="px-4 py-12 md:py-16 max-w-7xl mx-auto">
-        <div className="flex justify-between items-end mb-8 px-2 border-b border-slate-100 pb-4">
+      {/* LISTINGS SECTION */}
+      <section className="relative z-30 px-4 py-12 max-w-7xl mx-auto">
+        <div className="flex justify-between items-end mb-10 px-2">
           <div>
-            <h3 className="text-2xl font-black text-slate-900">Featured Homes</h3>
-            <p className="text-sm text-slate-500 font-medium">Handpicked properties just for you</p>
+            <h3 className="text-2xl font-black text-slate-900 tracking-tight">Featured Listings</h3>
+            <div className="h-1 w-12 bg-blue-600 mt-1 rounded-full" />
           </div>
-          <button className="text-xs font-bold text-blue-600 bg-blue-50 px-4 py-2 rounded-full hover:bg-blue-100 transition-colors">View All</button>
+          <button className="text-[10px] font-black text-blue-600 uppercase tracking-widest border-b-2 border-blue-600 pb-1">
+            View All
+          </button>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8 px-1">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8">
           {listings.map((item) => (
             <PropertyCard 
               key={item.id}
