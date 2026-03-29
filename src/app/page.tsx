@@ -45,7 +45,7 @@ export default function Home() {
         </motion.div>
       </section>
 
-      {/* 🔍 SEARCH & ACTION BAR (Mobile + Laptop Integrated) */}
+      {/* 🔍 SEARCH & ACTION BAR */}
       <section className="relative z-30 -mt-10 px-4 md:px-6">
         <div className="max-w-4xl mx-auto mb-16">
           <div className="bg-white shadow-2xl rounded-[2.5rem] p-2 border border-slate-100 flex flex-col md:flex-row items-center gap-2">
@@ -65,8 +65,8 @@ export default function Home() {
           </div>
         </div>
 
-        {/* 🏗️ PROPERTIES GRID (Fixed Spacing & 5 Columns) */}
-        <div className="max-w-[1600px] mx-auto pb-20">
+        {/* 🏗️ PROPERTIES GRID */}
+        <div className="max-w-[1600px] mx-auto pb-20 px-2 md:px-0">
           <div className="flex justify-between items-end mb-10 px-4">
             <div>
               <div className="flex items-center gap-2 mb-1 text-blue-600">
@@ -99,18 +99,16 @@ export default function Home() {
         </div>
       </section>
 
-      {/* FLOATING CHAT */}
+      {/* 🟢 FLOATING CHAT - Fully Transparent Glass Look */}
       <Link 
-  href="/profile" 
-  className="fixed bottom-10 right-10 z-[100] bg-white/10 backdrop-blur-xl text-slate-900 p-5 rounded-full shadow-[0_8px_32px_0_rgba(31,38,135,0.15)] hover:scale-110 hover:bg-white/40 transition-all border border-white/40 group flex items-center justify-center"
->
-  <MessageCircle size={24} className="text-blue-600" />
-  <div className="absolute right-full mr-4 top-1/2 -translate-y-1/2 bg-white/80 backdrop-blur-md text-slate-900 px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest opacity-0 group-hover:opacity-100 whitespace-nowrap transition-all border border-white/20 shadow-xl">
-    Direct Support
-  </div>
-</Link>
-        <MessageCircle size={24} />
-
+        href="/profile" 
+        className="fixed bottom-10 right-10 z-[100] bg-white/10 backdrop-blur-xl p-5 rounded-full shadow-[0_8px_32px_0_rgba(0,0,0,0.1)] hover:scale-110 hover:bg-white/20 transition-all border border-white/40 group flex items-center justify-center"
+      >
+        <MessageCircle size={24} className="text-blue-600 fill-blue-600/10" />
+        <div className="absolute right-full mr-4 top-1/2 -translate-y-1/2 bg-white/90 backdrop-blur-md text-slate-900 px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest opacity-0 group-hover:opacity-100 whitespace-nowrap transition-all border border-white/20 shadow-xl">
+          Direct Support
+        </div>
+      </Link>
     </main>
   );
 }

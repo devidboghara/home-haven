@@ -4,13 +4,11 @@ import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
 import Navbar from "@/components/Navbar";
 import { motion, AnimatePresence } from "framer-motion";
-import { MessageSquare, Heart, Settings, Send, Grid, Bookmark, CheckCircle } from "lucide-react";
+import { MessageSquare, Heart, Settings, Send, Grid, Bookmark, CheckCircle, LayoutGrid } from "lucide-react";
 
 export default function ProfilePage() {
   const [user, setUser] = useState<any>(null);
   const [activeTab, setActiveTab] = useState("chat");
-  const [messages, setMessages] = useState<any[]>([]);
-  const [newMessage, setNewMessage] = useState("");
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -25,7 +23,7 @@ export default function ProfilePage() {
   const stats = [
     { label: "Saved", value: "12", icon: <Bookmark size={14}/> },
     { label: "Inquiries", value: "04", icon: <MessageSquare size={14}/> },
-    { label: "Verified", value: "Yes", icon: <CheckCircle size={14}/> }
+    { label: "Verified", value: "Yes", icon: <CheckCircle size={14} className="text-blue-500"/> }
   ];
 
   return (
@@ -33,55 +31,56 @@ export default function ProfilePage() {
       <Navbar />
       <div className="max-w-4xl mx-auto px-6">
         
-        {/* INSTAGRAM STYLE HEADER */}
-        <header className="flex flex-col md:flex-row items-center gap-10 mb-12 border-b border-slate-100 pb-12">
-          <div className="relative">
-            <div className="w-24 h-24 md:w-40 md:h-40 rounded-full border-2 border-slate-100 p-1">
-               <img 
-                 src={user.user_metadata?.avatar_url || "https://ui-avatars.com/api/?name=User"} 
-                 className="w-full h-full rounded-full object-cover shadow-xl" 
-                 alt="Profile" 
-               />
+        {/* HEADER */}
+        <header className="flex flex-col md:flex-row items-center gap-10 mb-16">
+          <div className="relative group">
+            <div className="w-24 h-24 md:w-40 md:h-40 rounded-full bg-gradient-to-tr from-blue-600 to-blue-400 p-[3px]">
+               <div className="w-full h-full bg-white rounded-full p-1">
+                 <img 
+                   src={user.user_metadata?.avatar_url || "https://ui-avatars.com/api/?name=User"} 
+                   className="w-full h-full rounded-full object-cover" 
+                   alt="Profile" 
+                 />
+               </div>
             </div>
           </div>
 
-          <div className="flex-1 text-center md:text-left">
+          <div className="flex-1">
             <div className="flex flex-col md:flex-row items-center gap-6 mb-6">
-              <h2 className="text-2xl font-light text-slate-900 tracking-tight">{user.user_metadata?.full_name || "Premium Member"}</h2>
+              <h2 className="text-xl font-medium text-slate-900">{user.user_metadata?.full_name || "Premium Member"}</h2>
               <div className="flex gap-2">
-                 <button className="px-6 py-2 bg-slate-900 text-white rounded-lg text-[10px] font-black uppercase tracking-widest hover:bg-blue-600 transition-all shadow-lg">Edit Profile</button>
-                 <button className="p-2 border border-slate-200 rounded-lg hover:bg-slate-50 transition-all"><Settings size={16}/></button>
+                 <button className="px-5 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-900 rounded-lg text-[11px] font-bold transition-all">Edit profile</button>
+                 <button className="px-5 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-900 rounded-lg text-[11px] font-bold transition-all">View archive</button>
+                 <button className="p-1.5"><Settings size={20}/></button>
               </div>
             </div>
 
-            <div className="flex justify-center md:justify-start gap-10">
+            <div className="flex gap-8 mb-6">
               {stats.map((s, i) => (
-                <div key={i} className="flex flex-col md:flex-row items-center gap-2">
-                  <span className="font-black text-slate-900">{s.value}</span>
-                  <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest flex items-center gap-1">{s.icon} {s.label}</span>
+                <div key={i} className="flex gap-1.5 items-center">
+                  <span className="font-bold text-slate-900">{s.value}</span>
+                  <span className="text-sm text-slate-500">{s.label}</span>
                 </div>
               ))}
             </div>
 
-            <p className="mt-6 text-xs font-medium text-slate-500 max-w-sm leading-relaxed">
-              Exclusively searching for Luxury Penthouses and Villas in Ahmedabad. <br/>
-              <span className="text-blue-600 font-bold">#LuxeLairElite</span>
-            </p>
+            <p className="text-sm font-semibold text-slate-900">Elite Investor</p>
+            <p className="text-sm text-slate-500 max-w-sm">Exploring high-end real estate in Ahmedabad. VIP member since 2026.</p>
           </div>
         </header>
 
-        {/* TABS NAVIGATION */}
-        <div className="flex justify-center border-t border-slate-100 -mt-12 mb-8">
-           <div className="flex gap-12">
+        {/* TAB BAR */}
+        <div className="flex justify-center border-t border-slate-200">
+           <div className="flex gap-16">
               {[
-                { id: "chat", label: "Messages", icon: <MessageSquare size={16}/> },
-                { id: "favs", label: "Favorites", icon: <Heart size={16}/> },
-                { id: "activity", label: "Activity", icon: <Grid size={16}/> }
+                { id: "activity", label: "POSTS", icon: <LayoutGrid size={12}/> },
+                { id: "chat", label: "MESSAGES", icon: <MessageSquare size={12}/> },
+                { id: "favs", label: "SAVED", icon: <Bookmark size={12}/> }
               ].map(tab => (
                 <button 
                   key={tab.id} 
                   onClick={() => setActiveTab(tab.id)}
-                  className={`flex items-center gap-2 py-4 border-t-2 transition-all text-[10px] font-black uppercase tracking-[0.2em] ${activeTab === tab.id ? "border-slate-900 text-slate-900" : "border-transparent text-slate-400"}`}
+                  className={`flex items-center gap-1.5 py-4 border-t transition-all text-[11px] font-bold tracking-widest ${activeTab === tab.id ? "border-slate-900 text-slate-900" : "border-transparent text-slate-400"}`}
                 >
                   {tab.icon} {tab.label}
                 </button>
@@ -89,35 +88,31 @@ export default function ProfilePage() {
            </div>
         </div>
 
-        {/* CONTENT AREA */}
-        <section className="min-h-[400px]">
+        {/* CONTENT */}
+        <section className="py-8 min-h-[400px]">
            <AnimatePresence mode="wait">
              {activeTab === "chat" ? (
-                <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="max-w-2xl mx-auto bg-slate-50 rounded-[2rem] overflow-hidden border border-slate-100 shadow-sm flex flex-col h-[500px]">
-                   <div className="p-4 bg-white border-b border-slate-100 flex items-center gap-3">
-                      <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                      <span className="text-[10px] font-black uppercase text-slate-400">Concierge Support</span>
-                   </div>
-                   
-                   <div className="flex-1 p-6 overflow-y-auto space-y-4">
-                      <div className="flex justify-start">
-                         <div className="bg-white p-4 rounded-2xl rounded-tl-none border border-slate-200 text-[11px] font-medium text-slate-600 max-w-[80%]">
-                           Welcome to LuxeLair! How can we help you with your property search today?
+                <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} className="max-w-2xl mx-auto border border-slate-200 rounded-xl overflow-hidden h-[500px] flex flex-col shadow-sm">
+                   <div className="p-4 border-b border-slate-200 font-bold text-center text-sm">Concierge Support</div>
+                   <div className="flex-1 p-6 bg-white overflow-y-auto space-y-4">
+                      <div className="flex gap-3">
+                         <div className="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center text-white text-[10px] font-black">LL</div>
+                         <div className="bg-slate-100 p-3 rounded-2xl rounded-tl-none text-xs text-slate-700 max-w-[80%]">
+                           Hello! Welcome to LuxeLair Elite Concierge. How can we assist with your property search?
                          </div>
                       </div>
                    </div>
-
-                   <div className="p-4 bg-white flex gap-3">
-                      <input type="text" placeholder="Send a message..." className="flex-1 bg-slate-50 p-3 rounded-xl outline-none text-xs font-bold border border-slate-100 focus:border-blue-600"/>
-                      <button className="bg-slate-900 text-white p-3 rounded-xl hover:bg-blue-600 transition-all"><Send size={18}/></button>
+                   <div className="p-4 border-t border-slate-200 flex gap-4">
+                      <input type="text" placeholder="Message..." className="flex-1 text-sm outline-none px-2"/>
+                      <button className="text-blue-500 font-bold text-sm hover:text-blue-700">Send</button>
                    </div>
                 </motion.div>
              ) : (
-                <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="grid grid-cols-3 gap-1 md:gap-4">
-                   {/* Empty State Grid */}
-                   {[1,2,3,4,5,6].map(i => (
-                     <div key={i} className="aspect-square bg-slate-100 rounded-lg animate-pulse flex items-center justify-center">
-                        <Bookmark size={24} className="text-slate-200" />
+                <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="grid grid-cols-3 gap-1 md:gap-2">
+                   {[1,2,3].map(i => (
+                     <div key={i} className="aspect-square bg-slate-50 border border-slate-100 flex items-center justify-center group cursor-pointer relative">
+                        <Bookmark size={24} className="text-slate-200 group-hover:scale-110 transition-transform" />
+                        <div className="absolute inset-0 bg-black/5 opacity-0 group-hover:opacity-100 transition-all"></div>
                      </div>
                    ))}
                 </motion.div>
