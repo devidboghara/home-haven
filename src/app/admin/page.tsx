@@ -1,84 +1,74 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { DollarSign, Home, UserCheck, TrendingUp, Sparkles, MapPin, Target, LayoutGrid, MailQuestion, Trash2, ArrowRight } from "lucide-react";
+import { DollarSign, Home, UserCheck, TrendingUp, Sparkles, MapPin, Target, LayoutGrid, ChevronRight, UserCircle } from "lucide-react";
 import { useState } from "react";
 
 export default function AdminDashboard() {
-  const [activeSegment, setActiveSegment] = useState("leads");
+  const [activeTab, setActiveTab] = useState("leads");
 
-  const segments = [
-    { id: "leads", name: "Seller Leads" },
-    { id: "favs", name: "Property Favs" },
-    { id: "msgs", name: "User Messages" },
+  const hudsonTabs = [
+    { id: "leads", name: "Seller Leads Pipeline" },
+    { id: "listings", name: "LuxeInventory" },
+    { id: "inquiries", name: "VIP Inquiries" },
+    { id: "reports", name: "Team Reports" },
   ];
 
-  const primaryStats = [
-    { title: "Project Revenue Pipeline", val: "₹51.27 Cr+", icon: <DollarSign size={20}/>, change: "+15.8%" },
-    { title: "Active Listings", val: "28", icon: <Home size={20}/>, change: "+5.2%" },
-    { title: "Seller Leads Today", val: "65", icon: <UserCheck size={20}/>, change: "+21.0%" },
+  const pipelineStages = [
+    { id: 1, name: "New Lead", count: 18, color: "bg-blue-600" },
+    { id: 2, name: "Offer Under Contract", count: 11, color: "bg-green-500" },
+    { id: 3, name: "Deal Processing", count: 8, color: "bg-orange-500" },
+    { id: 4, name: "Deal Terminated", count: 4, color: "bg-red-500" },
   ];
 
   return (
-    <div className="space-y-12">
+    <div className="space-y-10">
+      
       {/* 🏙️ HERO TITLE SECTION (Luxe Edition Hudson 8 style) */}
-      <div className="flex justify-between items-end border-b border-slate-100 p-10 xl:p-12 pb-8">
+      <div className="flex justify-between items-end border-b border-slate-100 pb-8">
         <div>
           <div className="flex items-center gap-2 mb-1.5">
              <LayoutGrid size={14} className="text-blue-500" />
-             <p className="text-[10px] font-black text-blue-500 uppercase tracking-[0.4em]">Portfolio Summary</p>
+             <p className="text-[10px] font-black text-blue-500 uppercase tracking-[0.4em]">Operational Metrics</p>
           </div>
-          <h1 className="text-5xl font-black text-slate-900 uppercase italic tracking-tighter leading-none">Luxe<span className="text-slate-200">Portfolio</span></h1>
-          <p className="text-[10px] font-bold text-slate-400 mt-2 flex items-center gap-1.5 tracking-widest uppercase"><MapPin size={10}/> Ahmedabad & Gujarat Zone</p>
+          <h1 className="text-4xl md:text-5xl font-black text-slate-900 uppercase italic tracking-tighter leading-none">Luxe<span className="text-slate-200">Portfolio</span></h1>
+          <p className="text-[10px] font-bold text-slate-400 mt-2 flex items-center gap-1.5 tracking-widest uppercase"><MapPin size={10}/> Ahmedabad Headquarters Zone</p>
         </div>
         <div className="text-right space-y-1">
           <p className="text-sm font-black text-slate-900 tracking-widest">{new Date().toDateString()}</p>
-          <p className="text-[10px] font-medium text-slate-400">Time: {new Date().toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' })}</p>
-        </div>
-      </div>
-
-      {/* 💎 PRIMARY METRICS GRID (As it is Video layout) */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 px-10 xl:px-12">
-        {primaryStats.map((item, i) => (
-          <motion.div initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.1 }} key={i} className="bg-white p-8 rounded-[2.5rem] border border-slate-100 shadow-sm flex flex-col justify-between group hover:border-blue-200 transition-all hover:translate-y-[-5px]">
-            <div className="flex justify-between items-start mb-6">
-              <div className="p-3 bg-blue-50 text-blue-600 rounded-2xl group-hover:bg-blue-600 group-hover:text-white transition-all"> {item.icon} </div>
-              <div className={`px-3 py-1 text-[9px] font-black rounded-full flex gap-1 items-center ${item.change.startsWith('+') ? 'bg-green-50 text-green-600' : 'bg-red-50 text-red-600'}`}> <TrendingUp size={10}/> {item.change} </div>
-            </div>
-            <div>
-              <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1.5">{item.title}</p>
-              <h4 className="text-3xl font-black text-slate-900 italic tracking-tighter leading-none">{item.val}</h4>
-            </div>
-          </motion.div>
-        ))}
-
-        {/* Membership Status (Rich Context Card) */}
-        <div className="bg-slate-900 p-8 rounded-[2.5rem] shadow-2xl text-white">
-           <div className="flex items-center gap-2 mb-6">
-             <Sparkles size={14} className="text-blue-400"/>
-             <h4 className="text-[10px] font-black uppercase tracking-[0.3em] text-white">VIP Agent Membership</h4>
-           </div>
-           <p className="text-2xl font-black text-blue-400 italic mb-2 tracking-tighter">ELITE TIER</p>
-           <p className="text-[9px] font-medium text-white/50 tracking-wide uppercase">Expires: 25 Oct 2026</p>
-           <div className="h-1.5 bg-white/10 rounded-full mt-6 overflow-hidden"> <div className="h-full w-[80%] bg-blue-500 rounded-full"></div> </div>
+          <p className="text-[10px] font-medium text-slate-400 uppercase">System Status: <span className="text-green-500">Live</span></p>
         </div>
       </div>
 
       {/* 📊 HUDSON 8 STYLE TABS OVER CONTENT (Exact Screenshot) */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-10 px-10 xl:px-12">
+      <div className="flex gap-1.5 border-b border-slate-50 relative pb-5">
+        {hudsonTabs.map(tab => (
+            <button key={tab.id} onClick={() => setActiveTab(tab.id)} className={`px-6 py-4 rounded-xl text-[10px] font-black uppercase tracking-[0.2em] transition-all relative ${activeTab === tab.id ? 'bg-slate-900 text-white shadow-xl' : 'bg-white text-slate-300 border border-slate-100'}`}>
+                {tab.name}
+            </button>
+        ))}
+      </div>
+
+      {/* 💎 PRIMARY METRICS & UNIFIED CONSOLE (No Tukde tukde) */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
         
-        {/* LEADS ACTIVITY Chart + Mini Kanban Stage (Kanban style from Hudson) */}
+        {/* LEADS ACTIVITY CHART + KANBAN Pipeline (The Unified Console) */}
         <div className="lg:col-span-2 space-y-10">
-            {/* Real Chart Placeholder */}
-            <div className="bg-white p-10 rounded-[3rem] border border-slate-100 shadow-sm">
-                <div className="flex justify-between items-center mb-10">
-                    <h3 className="text-sm font-black uppercase tracking-widest text-slate-900 italic">Seller Leads Generated (Daily)</h3>
-                    <div className="flex gap-2">
-                        <button className="px-4 py-2 bg-blue-50 text-blue-600 rounded-xl text-[9px] font-black uppercase tracking-widest">This Month</button>
-                        <button className="px-4 py-2 text-slate-400 rounded-xl text-[9px] font-black uppercase tracking-widest">All Time</button>
-                    </div>
+            {/* Seller Leads Daily Generation (Activity Chart from Video) */}
+            <div className="bg-white p-10 xl:p-12 rounded-[2rem] border border-slate-100 shadow-sm relative">
+                <div className="absolute top-8 left-10 flex items-center gap-3">
+                   <div className="w-10 h-10 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center font-black italic">LL</div>
+                   <div>
+                       <h4 className="text-[12px] font-black uppercase text-slate-900 leading-none tracking-tight">Daily Generation Flow</h4>
+                       <p className="text-[8px] font-bold text-slate-400 uppercase mt-1 tracking-widest">Seller Leads Generated</p>
+                   </div>
                 </div>
-                {/* Real Bar Chart BARS */}
+                {/* DYNAMIC METRIC (Hudson style count animation will add later) */}
+                <div className="text-center mt-12 mb-10">
+                    <p className="text-5xl font-black italic text-slate-900 tracking-tighter">₹51,273,000 <span className="text-green-500 text-[10px] font-bold tracking-normal italic">+15.8%</span></p>
+                    <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mt-1">Project Revenue Pipeline Estimate</p>
+                </div>
+                {/* Real Chart BARS Placeholder */}
                 <div className="h-60 flex items-end justify-between gap-1.5 px-4 relative">
                     <div className="absolute top-1/2 left-0 w-full h-0.5 border-t border-dashed border-slate-100"></div>
                     {[50, 60, 45, 80, 70, 95, 40, 110, 65, 85, 55, 90, 75, 100].map((h, i) => (
@@ -89,43 +79,43 @@ export default function AdminDashboard() {
                 </div>
             </div>
 
-            {/* Stage Pipeline Hudson style */}
-            <div className="bg-white p-10 rounded-[3rem] border border-slate-100 shadow-sm space-y-6">
-                <h3 className="text-sm font-black uppercase tracking-widest text-slate-900 italic mb-8">Leads Pipeline Overview</h3>
-                {[
-                  { id: 1, title: "New Inquiries", count: 18, color: "bg-blue-600" },
-                  { id: 2, title: "Contact Made", count: 21, color: "bg-orange-500" },
-                  { id: 3, title: "Offer Under Contract", count: 11, color: "bg-green-500" },
-                ].map(stage => (
-                  <div key={stage.id} className="p-5 bg-slate-50 border border-slate-100 rounded-2xl flex items-center justify-between gap-3 hover:border-blue-100 transition-all">
-                      <div className={`w-3 h-3 ${stage.color} rounded-full`}></div>
-                      <p className="text-[10px] font-black uppercase text-slate-900 flex-1">{stage.title}</p>
-                      <p className="text-[10px] font-black uppercase text-slate-400 tracking-widest">{stage.count} Leads</p>
-                  </div>
-                ))}
+            {/* Leads Pipeline Stage (Kanban style from Video) */}
+            <div className="bg-slate-900 p-10 rounded-[2rem] shadow-2xl text-white">
+                <h3 className="text-sm font-black uppercase tracking-widest mb-10 text-white italic">Deal Pipeline Breakdown</h3>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+                    {pipelineStages.map(stage => (
+                        <div key={stage.id} className="p-6 bg-white/5 border border-white/10 rounded-xl text-center flex flex-col items-center group hover:border-blue-500/30 transition-all">
+                           <div className={`w-3 h-3 ${stage.color} rounded-full mb-3`}></div>
+                           <p className="text-2xl font-black italic tracking-tighter mb-0.5">{stage.count}</p>
+                           <p className="text-[9px] font-bold text-white/50 uppercase tracking-widest leading-none">{stage.name}</p>
+                           <ChevronRight size={14} className="text-blue-400 mt-4 opacity-0 group-hover:opacity-100 transition-opacity" />
+                        </div>
+                    ))}
+                </div>
             </div>
         </div>
 
-        {/* PROFILE SIDEBAR Hudson style */}
-        <div className="bg-white p-10 rounded-[3rem] border border-slate-100 shadow-sm flex flex-col items-center text-center">
-          <div className="w-24 h-24 rounded-full bg-slate-900 flex items-center justify-center text-white font-black text-4xl italic border-4 border-slate-100 shadow-xl mb-6">JC</div>
-          <p className="text-[9px] font-black text-blue-600 uppercase tracking-[0.2em] mb-1.5">Seller Account</p>
-          <h4 className="text-xl font-black text-slate-900 uppercase italic tracking-tighter leading-none">Jane Cooper</h4>
-          <div className="text-[9px] font-medium text-slate-400 mt-3 uppercase tracking-widest flex items-center gap-1.5 leading-none"><MapPin size={10}/> Satellite, Ahmedabad</div>
-          
-          <div className="w-full mt-10 pt-8 border-t border-slate-50 space-y-5">
-             {[
-               { icon: <UserCheck size={14}/>, label: "Last Inquiry Date", value: "25 Mar 2026" },
-               { icon: <Target size={14}/>, label: "Interested Property", value: "Aura Penthouse" },
-             ].map((m, i) => (
-                <div key={i} className="flex justify-between items-center text-[10px] font-black">
-                   <div className="flex items-center gap-3 text-slate-400"> {m.icon} {m.label} </div>
-                   <div className="text-slate-900 tracking-widest uppercase"> {m.value} </div>
-                </div>
-             ))}
-          </div>
+        {/* ACTIVE PROFILE SIDEBAR Hudson style */}
+        <div className="bg-white p-10 rounded-[2.5rem] border border-slate-100 shadow-sm flex flex-col items-center text-center">
+            <div className="w-24 h-24 rounded-full bg-slate-900 border-4 border-white shadow-xl flex items-center justify-center text-white font-black text-4xl italic mb-6">JC</div>
+            <p className="text-[10px] font-black text-blue-600 uppercase tracking-[0.2em] mb-1.5">Active Listing Owner</p>
+            <h4 className="text-xl font-black text-slate-900 uppercase italic tracking-tighter leading-none">Jane Cooper</h4>
+            <div className="text-[9px] font-medium text-slate-400 mt-3 uppercase tracking-widest flex items-center gap-1.5 leading-none"><MapPin size={10}/> Satellite, Ahmedabad</div>
+            
+            <div className="w-full mt-12 space-y-6 pt-10 border-t border-slate-50">
+               {[
+                 { label: "Active Deals", value: "08 Units" },
+                 { label: "Pipeline Rev", value: "₹4.2 Cr" },
+                 { label: "Site Visits", value: "03 Booked" },
+               ].map((m, i) => (
+                    <div key={i} className="flex justify-between items-center text-[11px] font-black">
+                       <div className="text-slate-400 uppercase tracking-widest">{m.label}</div>
+                       <div className="text-slate-900 tracking-widest uppercase italic">{m.value}</div>
+                    </div>
+               ))}
+            </div>
 
-          <button className="w-full mt-12 py-4 bg-slate-900 text-white rounded-[1rem] text-[9px] font-black uppercase tracking-widest hover:bg-blue-600 transition-all flex items-center justify-center gap-2">View Full Lead Cycle <ArrowRight size={14} fill="currentColor"/></button>
+            <button className="w-full mt-14 py-4 bg-slate-900 text-white rounded-[1rem] text-[9px] font-black uppercase tracking-widest hover:bg-blue-600 transition-all flex items-center justify-center gap-2 group">View Full Dealer Cycle <ChevronRight size={14} className="group-hover:translate-x-1 transition-transform"/></button>
         </div>
       </div>
     </div>
