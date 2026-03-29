@@ -3,13 +3,27 @@
 import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
 import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 import { motion, AnimatePresence } from "framer-motion";
-import { Heart, Settings, LogOut, Mail, Clock, ShieldCheck, MailQuestion, Trash2, ArrowRight } from "lucide-react";
+import { 
+  Heart, 
+  LogOut, 
+  Mail, 
+  Clock, 
+  ShieldCheck, 
+  MailQuestion, 
+  Trash2, 
+  ArrowRight,
+  Send,
+  History
+} from "lucide-react";
 
 export default function ProfilePage() {
   const [user, setUser] = useState<any>(null);
   const [activeTab, setActiveTab] = useState("wishlist");
   const [loading, setLoading] = useState(true);
+  const [message, setMessage] = useState("");
+  const charLimit = 200;
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -20,99 +34,159 @@ export default function ProfilePage() {
     fetchUser();
   }, []);
 
-  const formatDate = (date: any) => {
+  const formatDateTime = (date: any) => {
     if(!date) return "N/A";
     return new Date(date).toLocaleString('en-IN', { 
-      day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' 
+      day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' 
     });
   };
 
-  if (loading) return <div className="h-screen flex items-center justify-center bg-white font-black text-slate-200 uppercase tracking-widest animate-pulse">LuxeLair...</div>;
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
+    window.location.href = "/";
+  };
+
+  if (loading) return (
+    <div className="h-screen flex items-center justify-center bg-white">
+      <div className="text-blue-600 font-black italic tracking-[0.5em] animate-pulse uppercase text-xs">LuxeLair...</div>
+    </div>
+  );
 
   return (
-    <main className="min-h-screen bg-[#FDFDFD] pt-24 pb-20"> {/* Fixed gap: pt-24 only */}
+    <main className="min-h-screen bg-[#FBFCFE] flex flex-col">
       <Navbar />
-      <div className="max-w-6xl mx-auto px-6">
-        
-        {/* 🏆 HEADER SECTION: EXACT SCREENSHOT LAYOUT */}
-        <header className="bg-white p-8 md:p-12 rounded-[2.5rem] border border-slate-100 shadow-sm mb-10">
-          <div className="flex flex-col md:flex-row items-center md:items-start gap-12">
+      
+      {/* 🏆 THE EXECUTIVE DASHBOARD HEADER */}
+      <section className="pt-32 pb-12 px-6 md:px-16 border-b border-slate-100 bg-white">
+        <div className="max-w-7xl mx-auto">
+          <div className="flex flex-col md:flex-row justify-between items-center md:items-start gap-8">
             
-            {/* Logo Left - Small Circle */}
-            <div className="w-24 h-24 md:w-32 md:h-32 rounded-3xl bg-[#0051A1] flex items-center justify-center text-white text-4xl font-black italic shadow-2xl shrink-0 rotate-2">
-               {user?.user_metadata?.full_name?.charAt(0) || "L"}
-            </div>
-
-            {/* Details Right */}
-            <div className="flex-1 w-full text-center md:text-left">
-              <div className="flex flex-col md:flex-row justify-between items-start mb-6">
-                <div>
-                  <h2 className="text-3xl md:text-5xl font-black text-slate-900 tracking-tighter uppercase italic">{user?.user_metadata?.full_name || "Luxe Member"}</h2>
-                  <div className="mt-4 space-y-1">
-                    <p className="text-[10px] font-bold text-slate-400 flex items-center justify-center md:justify-start gap-2 uppercase tracking-widest"><Mail size={12}/> {user?.email}</p>
-                    <p className="text-[9px] font-black text-slate-500 mt-2 flex items-center justify-center md:justify-start gap-2 uppercase tracking-[0.2em] italic">
-                      <Clock size={12}/> Last Login: {formatDate(user?.last_sign_in_at)}
-                    </p>
+            {/* LEFT: [LOGO] [GMAIL ID] [TIMINGS] */}
+            <div className="flex items-center gap-6">
+              {/* (__) Round Profile Logo */}
+              <div className="w-20 h-20 md:w-24 md:h-24 rounded-full bg-blue-600 flex items-center justify-center text-white text-3xl font-black italic shadow-2xl shadow-blue-200 shrink-0">
+                {user?.email?.charAt(0).toUpperCase()}
+              </div>
+              
+              <div className="space-y-3">
+                <h2 className="text-xl md:text-2xl font-black text-slate-900 lowercase tracking-tight">
+                  {user?.email}
+                </h2>
+                <div className="flex flex-col md:flex-row gap-4 md:gap-10">
+                  <div className="flex items-center gap-2 text-slate-400">
+                    <Clock size={12} className="text-blue-500" />
+                    <span className="text-[9px] font-black uppercase tracking-widest">Login: {formatDateTime(user?.last_sign_in_at)}</span>
+                  </div>
+                  <div className="flex items-center gap-2 text-slate-400">
+                    <History size={12} className="text-red-400" />
+                    <span className="text-[9px] font-black uppercase tracking-widest">Logout: 28 Mar 2026, 11:20 PM (Static)</span>
                   </div>
                 </div>
-                
-                {/* Right Corner Buttons */}
-                <div className="flex gap-2 mt-6 md:mt-0">
-                  <button className="flex items-center gap-2 px-6 py-3 bg-slate-50 border border-slate-100 rounded-2xl text-[10px] font-black uppercase text-slate-400 hover:text-blue-600 transition-all"><Settings size={14}/> Settings</button>
-                  <button onClick={() => supabase.auth.signOut().then(() => window.location.href="/")} className="flex items-center gap-2 px-6 py-3 bg-red-50 border border-red-100 rounded-2xl text-[10px] font-black uppercase text-red-500 hover:bg-red-100 transition-all"><LogOut size={14}/> Logout</button>
-                </div>
-              </div>
-
-              {/* Stats Row (Real-world style) */}
-              <div className="grid grid-cols-3 gap-6 pt-10 border-t border-slate-50">
-                <div>
-                  <p className="text-[9px] font-black text-slate-300 uppercase tracking-widest mb-1">Properties Liked</p>
-                  <p className="text-3xl font-black text-slate-900 italic">08 <span className="text-[10px] font-bold text-slate-200 ml-1">Count</span></p>
-                </div>
-                <div className="border-x border-slate-50 px-6">
-                  <p className="text-[9px] font-black text-slate-300 uppercase tracking-widest mb-1">Membership</p>
-                  <p className="text-3xl font-black text-blue-600 italic">YES <span className="text-[10px] font-bold text-slate-200 ml-1">Elite</span></p>
-                </div>
-                <div>
-                  <p className="text-[9px] font-black text-slate-300 uppercase tracking-widest mb-1">Status</p>
-                  <p className="text-3xl font-black text-green-500 italic flex items-center gap-2">DONE <ShieldCheck size={20}/></p>
-                </div>
               </div>
             </div>
-          </div>
-        </header>
 
-        {/* CONTENT TABS */}
-        <div className="flex gap-4 mb-10">
-          <button onClick={() => setActiveTab("wishlist")} className={`flex-1 py-5 rounded-[2rem] text-[10px] font-black uppercase tracking-[0.3em] transition-all flex items-center justify-center gap-3 ${activeTab === 'wishlist' ? 'bg-slate-900 text-white shadow-2xl scale-[1.02]' : 'bg-white text-slate-300 border border-slate-100'}`}><Heart size={16} fill={activeTab === 'wishlist' ? "white" : "none"}/> My Wishlist</button>
-          <button onClick={() => setActiveTab("history")} className={`flex-1 py-5 rounded-[2rem] text-[10px] font-black uppercase tracking-[0.3em] transition-all flex items-center justify-center gap-3 ${activeTab === 'history' ? 'bg-slate-900 text-white shadow-2xl scale-[1.02]' : 'bg-white text-slate-300 border border-slate-100'}`}><MailQuestion size={16}/> Inquiries</button>
+            {/* RIGHT: LOGOUT BUTTON (__) */}
+            <button 
+              onClick={handleLogout}
+              className="group flex items-center gap-3 px-8 py-4 bg-red-50 hover:bg-red-500 text-red-500 hover:text-white rounded-full transition-all duration-500 border border-red-100 shadow-sm"
+            >
+              <span className="text-[10px] font-black uppercase tracking-[0.2em]">Log Out</span>
+              <LogOut size={16} className="group-hover:translate-x-1 transition-transform" />
+            </button>
+          </div>
+        </div>
+      </section>
+
+      {/* 📑 TABS SECTION: [MY WISHLIST] | [INQUIRIES] */}
+      <section className="flex-1 max-w-7xl mx-auto w-full px-6 md:px-16 py-12">
+        <div className="flex gap-12 mb-12 border-b border-slate-50">
+          <button 
+            onClick={() => setActiveTab("wishlist")}
+            className={`pb-6 text-[11px] font-black uppercase tracking-[0.4em] transition-all relative ${activeTab === 'wishlist' ? 'text-blue-600' : 'text-slate-300'}`}
+          >
+            My Wish List
+            {activeTab === 'wishlist' && <motion.div layoutId="underline" className="absolute bottom-0 left-0 w-full h-1 bg-blue-600" />}
+          </button>
+          <button 
+            onClick={() => setActiveTab("inquiry")}
+            className={`pb-6 text-[11px] font-black uppercase tracking-[0.4em] transition-all relative ${activeTab === 'inquiry' ? 'text-blue-600' : 'text-slate-300'}`}
+          >
+            Inquiries
+            {activeTab === 'inquiry' && <motion.div layoutId="underline" className="absolute bottom-0 left-0 w-full h-1 bg-blue-600" />}
+          </button>
         </div>
 
-        {/* TAB CONTENT */}
-        <section className="min-h-[500px]">
-          <AnimatePresence mode="wait">
-            {activeTab === 'wishlist' ? (
-              <motion.div key="wishlist" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {/* Static Example - To be linked to Real DB later */}
-                <div className="bg-white p-3 rounded-[2.5rem] border border-slate-100 shadow-sm group">
-                  <div className="h-52 rounded-[2rem] overflow-hidden relative"><img src="https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=800" className="w-full h-full object-cover"/><button className="absolute top-4 right-4 p-2 bg-white/90 rounded-xl text-red-500 shadow-xl"><Trash2 size={16}/></button></div>
-                  <div className="p-6 flex justify-between items-center"><div><h4 className="text-[12px] font-black uppercase italic tracking-tighter">Aura Penthouse</h4><p className="text-[8px] font-bold text-slate-400 uppercase">Ahmedabad</p></div><ArrowRight size={14} className="text-blue-600"/></div>
+        {/* 📦 TAB CONTENT */}
+        <AnimatePresence mode="wait">
+          {activeTab === "wishlist" ? (
+            <motion.div 
+              key="wishlist"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"
+            >
+              {/* Static Wishlist Card Example */}
+              <div className="bg-white p-3 rounded-[2.5rem] border border-slate-100 shadow-sm hover:shadow-xl transition-all duration-500 group">
+                <div className="h-44 rounded-[2rem] overflow-hidden relative">
+                  <img src="https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=800" className="w-full h-full object-cover" alt="Home" />
+                  <button className="absolute top-4 right-4 p-2 bg-white/90 rounded-xl text-red-500 opacity-0 group-hover:opacity-100 transition-opacity"><Trash2 size={16}/></button>
                 </div>
-              </motion.div>
-            ) : (
-              <motion.div key="history" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="bg-white rounded-[3rem] p-12 border border-slate-100">
-                <h3 className="text-xl font-black text-slate-900 uppercase italic tracking-tighter mb-10">Email & Inquiry History</h3>
-                <div className="space-y-4">
-                  <div className="flex flex-col md:flex-row items-center justify-between p-6 bg-slate-50 rounded-[2rem] border border-slate-100 hover:border-blue-200 transition-all cursor-pointer">
-                    <div className="flex items-center gap-5"><MailQuestion size={24} className="text-blue-600"/><div><p className="text-[11px] font-black text-slate-900 uppercase">Inquiry: Aura Penthouse</p><p className="text-[9px] font-bold text-slate-400 italic">"Sent to LuxeLair Sales Team..."</p></div></div>
-                    <span className="text-[9px] font-black text-slate-300 uppercase tracking-widest">29 Mar 2026</span>
+                <div className="p-4 flex justify-between items-center">
+                   <h4 className="text-[10px] font-black uppercase italic text-slate-900 tracking-tighter">Aura Penthouse</h4>
+                   <ArrowRight size={14} className="text-blue-600" />
+                </div>
+              </div>
+            </motion.div>
+          ) : (
+            <motion.div 
+              key="inquiry"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              className="max-w-3xl"
+            >
+              {/* ✉️ NEW INQUIRY FORMAT (Write to us) */}
+              <div className="bg-white p-10 rounded-[3rem] border border-slate-100 shadow-sm">
+                <h3 className="text-lg font-black uppercase italic tracking-tighter text-slate-900 mb-2">Compose Inquiry</h3>
+                <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest mb-8">Send a private email to LuxeLair Sales Team</p>
+                
+                <div className="space-y-6">
+                  <div className="relative">
+                    <textarea 
+                      value={message}
+                      onChange={(e) => setMessage(e.target.value.slice(0, charLimit))}
+                      placeholder="Enter your message here..."
+                      className="w-full p-8 bg-slate-50 rounded-[2rem] outline-none border border-slate-50 focus:border-blue-100 focus:bg-white transition-all text-xs font-medium min-h-[150px] resize-none"
+                    ></textarea>
+                    <div className="absolute bottom-6 right-8 text-[9px] font-black text-slate-300 uppercase tracking-widest">
+                      {message.length} / {charLimit} Words
+                    </div>
                   </div>
+                  
+                  <button className="flex items-center gap-3 px-12 py-5 bg-slate-900 text-white rounded-2xl text-[10px] font-black uppercase tracking-[0.3em] hover:bg-blue-600 transition-all shadow-2xl active:scale-95">
+                    Send Email <Send size={14} />
+                  </button>
                 </div>
-              </motion.div>
-            )}
-          </AnimatePresence>
-        </section>
-      </div>
+              </div>
+
+              {/* Inquiry History Example */}
+              <div className="mt-12 space-y-4 opacity-50">
+                <p className="text-[9px] font-black text-slate-300 uppercase tracking-widest ml-4">Past Conversations</p>
+                <div className="p-6 bg-white border border-slate-50 rounded-3xl flex justify-between items-center">
+                   <div className="flex items-center gap-4 text-slate-400">
+                     <MailQuestion size={18} />
+                     <p className="text-[10px] font-bold">Regarding Sky Villa Site Visit...</p>
+                   </div>
+                   <span className="text-[8px] font-black uppercase tracking-widest text-slate-200">Delivered</span>
+                </div>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </section>
+
+      <Footer />
     </main>
   );
 }
