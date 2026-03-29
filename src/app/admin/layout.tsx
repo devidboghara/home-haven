@@ -1,100 +1,94 @@
 "use client";
 
-import { 
-  LayoutDashboard, 
-  Home, 
-  Mail, 
-  PieChart, 
-  Settings, 
-  LogOut, 
-  Search, 
-  Bell, 
-  User as UserIcon,
-  ChevronRight
-} from "lucide-react";
+import { LayoutDashboard, Home, Mail, FileText, Settings, LogOut, Search, Bell, ChevronDown, Users, BarChart3 } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
 
-  const navLinks = [
-    { name: "Console", icon: <LayoutDashboard size={16} />, path: "/admin" },
-    { name: "Inventory", icon: <Home size={16} />, path: "/admin/properties" },
-    { name: "Leads", icon: <Mail size={16} />, path: "/admin/inquiries" },
-    { name: "Financials", icon: <PieChart size={16} />, path: "/admin/finance" },
+  const primaryTabs = [
+    { name: "Dashboard", path: "/admin" },
+    { name: "Listings", path: "/admin/properties" },
+    { name: "Leads/Inquiries", path: "/admin/inquiries" },
+    { name: "Team/Reports", path: "/admin/analytics" },
+  ];
+
+  const secondaryMenu = [
+    { name: "System Settings", icon: <Settings size={18} />, path: "/admin/settings" },
   ];
 
   return (
-    <div className="flex min-h-screen bg-[#F1F5F9] font-sans antialiased selection:bg-blue-100">
-      
-      {/* 🛠️ FIXED SIDEBAR (Industrial Design) */}
-      <aside className="w-60 bg-[#0F172A] flex flex-col h-screen sticky top-0 shrink-0 border-r border-slate-800">
-        <div className="p-8">
-          <h1 className="text-sm font-black text-white uppercase tracking-[0.3em] italic">
-            Luxe<span className="text-blue-500">Admin</span>
-          </h1>
+    <div className="flex min-h-screen bg-[#F8FAFC]">
+      {/* 🏙️ SIDEBAR (Inspired by Screenshot) */}
+      <aside className="w-[280px] bg-white border-r border-slate-100 flex flex-col h-screen sticky top-0 shrink-0">
+        <div className="p-10 pb-4">
+          <Link href="/" className="text-2xl font-black italic uppercase tracking-tighter text-slate-900 leading-none">
+            Luxe<span className="text-blue-600">Admin.</span>
+          </Link>
+          <div className="h-0.5 w-10 bg-blue-600 mt-2"></div>
         </div>
 
-        <nav className="flex-1 px-4 mt-2 space-y-1">
-          {navLinks.map((link) => (
+        {/* HUDSON 8 STYLE TABS - Vertical in Sidebar */}
+        <nav className="flex-1 px-6 space-y-1.5 pt-6">
+          <p className="px-5 text-[9px] font-black text-slate-400 uppercase tracking-widest mb-3">Portfolio Management</p>
+          {primaryTabs.map((item) => (
             <Link 
-              key={link.path} 
-              href={link.path}
-              className={`flex items-center justify-between px-4 py-3 rounded-xl transition-all duration-300 ${pathname === link.path ? "bg-blue-600 text-white shadow-lg shadow-blue-900/20" : "text-slate-400 hover:text-white hover:bg-slate-800/50"}`}
+              key={item.path} 
+              href={item.path}
+              className={`flex items-center gap-4 px-5 py-4 rounded-[1rem] text-[11px] font-black uppercase tracking-widest transition-all ${pathname === item.path ? "bg-slate-900 text-white shadow-xl shadow-slate-900/10" : "text-slate-400 hover:bg-slate-50 hover:text-slate-900"}`}
             >
-              <div className="flex items-center gap-3 text-[11px] font-bold uppercase tracking-widest">
-                {link.icon} {link.name}
-              </div>
-              {pathname === link.path && <ChevronRight size={12} />}
+              <LayoutGrid size={pathname === item.path ? 18 : 16} className={pathname === item.path ? 'text-white' : 'text-slate-300'}/> {item.name}
             </Link>
           ))}
         </nav>
 
-        <div className="p-6 border-t border-slate-800/50 space-y-4">
-          <button className="flex items-center gap-3 px-4 py-2 text-[10px] font-bold text-slate-500 uppercase tracking-widest hover:text-red-400 transition-colors">
-            <LogOut size={16} /> Terminate Session
+        {/* BOTTOM SECTION */}
+        <div className="p-6 border-t border-slate-50 space-y-3 mt-auto">
+          {secondaryMenu.map(item => (
+             <Link key={item.path} href={item.path} className="flex items-center gap-4 px-5 py-4 text-slate-400 text-[11px] font-black uppercase tracking-widest hover:bg-slate-50 hover:text-slate-900 rounded-[1rem]">
+                {item.icon} {item.name}
+             </Link>
+          ))}
+          <button className="flex items-center gap-4 px-5 py-4 w-full text-red-400 text-[11px] font-black uppercase tracking-widest rounded-[1rem]">
+            <LogOut size={20} /> Exit Portal
           </button>
         </div>
       </aside>
 
-      {/* 🚀 MAIN INTERFACE */}
-      <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
-        
-        {/* TOP CONSOLE HEADER (Replacing User Navbar) */}
-        <header className="h-16 bg-white border-b border-slate-200 flex items-center justify-between px-10 sticky top-0 z-50">
-          <div className="flex items-center gap-4 bg-slate-50 px-4 py-2 rounded-xl border border-slate-100 w-96 group focus-within:border-blue-400 transition-all">
-            <Search size={14} className="text-slate-400" />
-            <input 
-              type="text" 
-              placeholder="GLOBAL SEARCH (PROPERTIES, LEADS, UID)..." 
-              className="bg-transparent text-[10px] font-bold outline-none w-full text-slate-900 placeholder:text-slate-300 uppercase tracking-widest" 
-            />
+      {/* 🚀 MAIN CONTENT AREA WITH TOP NAV */}
+      <div className="flex-1 flex flex-col">
+        {/* Hudson 8 Style Top Header Bar */}
+        <header className="sticky top-0 z-40 bg-white/80 backdrop-blur-lg border-b border-slate-100 p-6 flex justify-between items-center gap-8">
+          <div className="flex-1 max-w-lg bg-slate-50 px-6 py-3.5 rounded-2xl flex items-center gap-3 border border-slate-100">
+            <Search size={18} className="text-slate-400"/>
+            <input type="text" placeholder="Global Search (listings, inquries, leads)..." className="flex-1 bg-transparent text-xs outline-none text-slate-900 placeholder:text-slate-300 font-bold uppercase tracking-widest" />
           </div>
-
-          <div className="flex items-center gap-8">
-            <div className="relative cursor-pointer group">
-              <Bell size={18} className="text-slate-400 group-hover:text-blue-600 transition-colors" />
-              <span className="absolute -top-1 -right-1 w-2 h-2 bg-blue-600 rounded-full border-2 border-white"></span>
-            </div>
-            
-            <div className="flex items-center gap-4 border-l pl-8 border-slate-100">
-              <div className="text-right">
-                <p className="text-[10px] font-black text-slate-900 uppercase tracking-widest leading-none">Super Admin</p>
-                <p className="text-[9px] font-bold text-blue-500 mt-1 uppercase tracking-tighter">Devid Patel</p>
-              </div>
-              <div className="w-10 h-10 rounded-xl bg-slate-900 flex items-center justify-center text-white text-[10px] font-black italic border-2 border-slate-100 shadow-sm">
-                DP
-              </div>
+          <div className="flex items-center gap-6">
+            <button className="p-3 bg-white text-slate-400 hover:bg-slate-50 rounded-full border border-slate-100 relative"><Bell size={18} /></button>
+            <div className="flex items-center gap-3 border-l pl-6 border-slate-100">
+                <div className="w-10 h-10 rounded-full bg-slate-900 flex items-center justify-center text-white font-black text-sm italic border-2 border-white shadow-sm">DP</div>
+                <div className="text-left">
+                    <p className="text-[11px] font-black uppercase tracking-widest text-slate-900 leading-none">Super Admin</p>
+                    <p className="text-[9px] font-medium text-slate-400 mt-1 uppercase">Devid Patel</p>
+                </div>
+                <ChevronDown size={14} className="text-slate-300 ml-2"/>
             </div>
           </div>
         </header>
 
-        {/* PAGE CONTENT */}
-        <main className="p-10 overflow-y-auto bg-[#F8FAFC]">
+        {/* The Page Content */}
+        <main className="flex-1 overflow-y-auto">
           {children}
         </main>
       </div>
     </div>
   );
 }
+
+// ArrowRight as simple icon if not imported
+const LayoutGrid = ({ size, className }: any) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+    <rect width="7" height="7" x="3" y="3" rx="1"/><rect width="7" height="7" x="14" y="3" rx="1"/><rect width="7" height="7" x="14" y="14" rx="1"/><rect width="7" height="7" x="3" y="14" rx="1"/>
+  </svg>
+);
