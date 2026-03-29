@@ -5,7 +5,7 @@ import PropertyCard from "@/components/PropertyCard";
 import { supabase } from "@/lib/supabase";
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
-import { Search, Sparkles, ArrowRight } from "lucide-react";
+import { Search, Sparkles, ArrowRight, MessageCircle } from "lucide-react";
 import Link from "next/link";
 
 export default function Home() {
@@ -14,7 +14,7 @@ export default function Home() {
 
   useEffect(() => {
     async function getProperties() {
-      const { data } = await supabase.from('properties').select('*').limit(10); // 2 rows of 5
+      const { data } = await supabase.from('properties').select('*').limit(10);
       if (data) setListings(data);
       setLoading(false);
     }
@@ -25,73 +25,84 @@ export default function Home() {
     <main className="relative min-h-screen bg-[#F8FAFC]">
       <Navbar />
 
-      {/* 🏔️ FULL HERO SECTION (Laptop: 85vh, Mobile: 60vh) */}
-      <section className="relative w-full h-[60vh] md:h-[85vh] flex items-center justify-center overflow-hidden">
+      {/* 🏔️ FULL HERO SECTION */}
+      <section className="relative w-full h-[60vh] md:h-[80vh] flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0 z-0">
           <img 
             src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1600&q=80" 
-            className="w-full h-full object-cover scale-105 brightness-[0.6]" 
+            className="w-full h-full object-cover brightness-[0.5]" 
             alt="Hero Background" 
           />
         </div>
         
-        <motion.div 
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="relative z-20 text-center px-6"
-        >
+        <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} className="relative z-20 text-center px-6">
           <h2 className="text-6xl md:text-[10rem] font-black text-white tracking-tighter uppercase italic leading-[0.8] drop-shadow-2xl">
             Luxe<span className="text-blue-500">Lair.</span>
           </h2>
-          <p className="mt-6 text-white/80 font-bold uppercase tracking-[0.5em] text-[10px] md:text-xs">
+          <p className="mt-4 text-white/90 font-bold uppercase tracking-[0.5em] text-[10px] md:text-xs">
             Ahmedabad's Elite Collection
           </p>
-          
-          {/* Floating Search Bar inside Hero for Laptop */}
-          <div className="hidden md:flex mt-12 bg-white/10 backdrop-blur-xl p-2 rounded-full border border-white/20 w-full max-w-2xl mx-auto shadow-2xl">
-             <div className="flex-1 flex items-center px-6 gap-3">
-                <Search size={20} className="text-white" />
-                <input type="text" placeholder="Explore Penthouses, Villas..." className="bg-transparent border-none outline-none text-white font-bold placeholder:text-white/50 w-full" />
-             </div>
-             <Link href="/explore">
-               <button className="bg-blue-600 text-white px-10 py-4 rounded-full font-black uppercase text-[10px] tracking-widest hover:bg-white hover:text-blue-600 transition-all">Search</button>
-             </Link>
-          </div>
         </motion.div>
       </section>
 
-      {/* 🏗️ PROPERTIES GRID (5 Columns for Laptop) */}
-      <section className="py-24 px-6 max-w-[1600px] mx-auto">
-        <div className="flex justify-between items-end mb-16 px-4">
-          <div>
-            <div className="flex items-center gap-2 mb-2 text-blue-600">
-               <Sparkles size={16}/> <span className="font-black uppercase tracking-widest text-[10px]">Curated Selection</span>
+      {/* 🔍 SEARCH & ACTION BAR (Mobile + Laptop Integrated) */}
+      <section className="relative z-30 -mt-10 px-4 md:px-6">
+        <div className="max-w-4xl mx-auto mb-16">
+          <div className="bg-white shadow-2xl rounded-[2.5rem] p-2 border border-slate-100 flex flex-col md:flex-row items-center gap-2">
+            <div className="flex-1 flex items-center px-6 gap-3 w-full">
+              <Search size={18} className="text-slate-400" />
+              <input type="text" placeholder="Search Satellite, Bopal, Penthouses..." className="w-full bg-transparent outline-none text-[11px] font-black uppercase text-slate-900 placeholder:text-slate-300" />
             </div>
-            <h3 className="text-4xl md:text-6xl font-black text-slate-900 tracking-tighter uppercase italic">The Collection</h3>
+            
+            <div className="flex gap-2 w-full md:w-auto">
+              <Link href="/explore" className="flex-1">
+                <button className="w-full bg-[#0051A1] text-white px-8 py-4 rounded-full text-[9px] font-black uppercase tracking-widest hover:bg-blue-700 transition-all">Explore All</button>
+              </Link>
+              <Link href="/profile" className="flex-1 md:flex-none">
+                <button className="w-full bg-slate-900 text-white px-8 py-4 rounded-full text-[9px] font-black uppercase tracking-widest hover:bg-slate-800 transition-all">Enquiry</button>
+              </Link>
+            </div>
           </div>
-          <Link href="/explore" className="group flex items-center gap-3 text-[10px] font-black uppercase text-slate-900 border-b-4 border-blue-600 pb-2 hover:text-blue-600 transition-all">
-            Explore All 18 Listings <ArrowRight size={16}/>
-          </Link>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 md:gap-8">
-          {loading ? (
-             <div className="col-span-full text-center py-20 font-black text-slate-200 text-4xl italic uppercase animate-pulse">LuxeLair Loading...</div>
-          ) : (
-            listings.map((item, i) => (
-              <motion.div 
-                key={item.id} 
-                initial={{ opacity: 0, scale: 0.95 }} 
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.3, delay: i * 0.05 }}
-              >
-                <PropertyCard id={item.id} title={item.title} price={item.price} location={item.location} image={item.main_image} />
-              </motion.div>
-            ))
-          )}
+        {/* 🏗️ PROPERTIES GRID (Fixed Spacing & 5 Columns) */}
+        <div className="max-w-[1600px] mx-auto pb-20">
+          <div className="flex justify-between items-end mb-10 px-4">
+            <div>
+              <div className="flex items-center gap-2 mb-1 text-blue-600">
+                <Sparkles size={14}/> <span className="font-black uppercase tracking-[0.3em] text-[9px]">Featured Selection</span>
+              </div>
+              <h3 className="text-3xl md:text-5xl font-black text-slate-900 tracking-tighter uppercase italic">The Collection</h3>
+            </div>
+            <Link href="/explore" className="hidden md:flex items-center gap-2 text-[10px] font-black uppercase text-blue-600 border-b-2 border-blue-600 pb-1">
+              View All 18 Listings <ArrowRight size={14}/>
+            </Link>
+          </div>
+
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 md:gap-6">
+            {loading ? (
+              <div className="col-span-full py-20 text-center font-black text-slate-300 italic tracking-widest">LOADING...</div>
+            ) : (
+              listings.map((item, i) => (
+                <motion.div 
+                  key={item.id} 
+                  initial={{ opacity: 0, scale: 0.9, y: 20 }} 
+                  whileInView={{ opacity: 1, scale: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.3, delay: i * 0.05 }}
+                >
+                  <PropertyCard id={item.id} title={item.title} price={item.price} location={item.location} image={item.main_image} />
+                </motion.div>
+              ))
+            )}
+          </div>
         </div>
       </section>
+
+      {/* FLOATING CHAT */}
+      <Link href="/profile" className="fixed bottom-10 right-10 z-50 bg-[#0051A1] text-white p-5 rounded-full shadow-2xl hover:scale-110 transition-all">
+        <MessageCircle size={24} />
+      </Link>
     </main>
   );
 }
