@@ -100,10 +100,15 @@ export default function Home() {
       </section>
 
       {/* FLOATING CHAT */}
-      <Link href="/profile" className="fixed bottom-10 right-10 z-[100] bg-[#0051A1]/30 backdrop-blur-md text-white p-5 rounded-full shadow-2xl hover:scale-110 hover:bg-blue-600/80 transition-all border border-white/20 group">
-  <MessageCircle size={24} />
+      <Link 
+  href="/profile" 
+  className="fixed bottom-10 right-10 z-[100] bg-white/10 backdrop-blur-xl text-slate-900 p-5 rounded-full shadow-[0_8px_32px_0_rgba(31,38,135,0.15)] hover:scale-110 hover:bg-white/40 transition-all border border-white/40 group flex items-center justify-center"
+>
+  <MessageCircle size={24} className="text-blue-600" />
+  <div className="absolute right-full mr-4 top-1/2 -translate-y-1/2 bg-white/80 backdrop-blur-md text-slate-900 px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest opacity-0 group-hover:opacity-100 whitespace-nowrap transition-all border border-white/20 shadow-xl">
+    Direct Support
+  </div>
 </Link>
-
         <MessageCircle size={24} />
 
     </main>
