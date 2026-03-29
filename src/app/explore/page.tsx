@@ -4,14 +4,15 @@ import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
 import Navbar from "@/components/Navbar";
 import PropertyCard from "@/components/PropertyCard";
-import { Filter, MapPin, Search, ChevronDown, SlidersHorizontal } from "lucide-react";
+import { Search, MapPin, SlidersHorizontal, X } from "lucide-react";
 
 export default function ExplorePage() {
   const [properties, setProperties] = useState<any[]>([]);
   const [filtered, setFiltered] = useState<any[]>([]);
-  const [priceRange, setPriceRange] = useState("all");
+  const [maxPrice, setMaxPrice] = useState(10); // Default 10Cr
   const [selectedArea, setSelectedArea] = useState("all");
   const [loading, setLoading] = useState(true);
+  const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
     async function fetchAll() {
@@ -25,82 +26,70 @@ export default function ExplorePage() {
     fetchAll();
   }, []);
 
-  // 🛠️ FILTER LOGIC
+  // 🛠️ CUSTOM FILTER LOGIC
   useEffect(() => {
     let result = properties;
-    
-    if (priceRange !== "all") {
-      if (priceRange === "under-2") result = result.filter(p => parseFloat(p.price) < 2);
-      if (priceRange === "2-5") result = result.filter(p => parseFloat(p.price) >= 2 && parseFloat(p.price) <= 5);
-      if (priceRange === "above-5") result = result.filter(p => parseFloat(p.price) > 5);
-    }
-
+    result = result.filter(p => parseFloat(p.price) <= maxPrice);
     if (selectedArea !== "all") {
       result = result.filter(p => p.location.toLowerCase().includes(selectedArea.toLowerCase()));
     }
-
+    if (searchTerm) {
+      result = result.filter(p => p.title.toLowerCase().includes(searchTerm.toLowerCase()));
+    }
     setFiltered(result);
-  }, [priceRange, selectedArea, properties]);
+  }, [maxPrice, selectedArea, searchTerm, properties]);
 
   return (
-    <main className="min-h-screen bg-[#FBFCFE] pt-32 pb-20">
+    <main className="min-h-screen bg-[#FDFDFD] pt-24 pb-20">
       <Navbar />
-      <div className="max-w-[1700px] mx-auto px-8">
+      <div className="max-w-[1600px] mx-auto px-4 md:px-10">
         
-        <div className="flex flex-col lg:flex-row gap-12">
+        {/* 🔍 GLOBAL SEARCH (Same as Home but Compact) */}
+        <div className="bg-white p-2 rounded-[2.5rem] shadow-sm border border-slate-100 flex items-center mb-10 max-w-4xl mx-auto">
+          <Search className="ml-5 text-slate-400" size={20} />
+          <input 
+            type="text" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)}
+            placeholder="Search by name..." 
+            className="flex-1 p-4 outline-none text-[11px] font-black uppercase text-slate-900"
+          />
+        </div>
+
+        <div className="flex flex-col lg:flex-row gap-10">
           
-          {/* 🔍 SIDEBAR FILTERS (Laptop Left) */}
-          <aside className="w-full lg:w-80 shrink-0">
-            <div className="sticky top-32 bg-white p-8 rounded-[2.5rem] border border-slate-100 shadow-sm">
-              <div className="flex items-center gap-3 mb-10">
-                <SlidersHorizontal size={20} className="text-blue-600" />
-                <h3 className="text-lg font-black uppercase italic tracking-tighter">Refine Search</h3>
-              </div>
+          {/* 🛠️ CUSTOM PRICE & AREA SIDEBAR */}
+          <aside className="w-full lg:w-72 shrink-0 bg-white p-8 rounded-[2rem] border border-slate-100 h-fit">
+            <h3 className="text-[10px] font-black uppercase tracking-[0.2em] mb-8 text-blue-600 flex items-center gap-2"><SlidersHorizontal size={14}/> Custom Filters</h3>
 
-              {/* AREA FILTER */}
-              <div className="mb-10">
-                <label className="text-[9px] font-black text-slate-400 uppercase tracking-widest block mb-4">Select Location</label>
-                <div className="space-y-2">
-                  {["all", "Satellite", "Bopal", "Prahlad Nagar", "Bodakdev"].map(area => (
-                    <button key={area} onClick={() => setSelectedArea(area)} className={`w-full text-left p-4 rounded-2xl text-[10px] font-black uppercase transition-all ${selectedArea === area ? 'bg-blue-600 text-white shadow-lg shadow-blue-200' : 'bg-slate-50 text-slate-400 hover:bg-slate-100'}`}>
-                      {area === "all" ? "Whole City" : area}
-                    </button>
-                  ))}
-                </div>
+            <div className="mb-8">
+              <div className="flex justify-between items-center mb-4">
+                <label className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Max Budget</label>
+                <span className="text-[11px] font-black text-slate-900 italic">₹{maxPrice} Cr</span>
               </div>
+              <input 
+                type="range" min="1" max="20" step="0.5" value={maxPrice} 
+                onChange={(e) => setMaxPrice(parseFloat(e.target.value))}
+                className="w-full h-1.5 bg-slate-100 rounded-lg appearance-none cursor-pointer accent-blue-600"
+              />
+            </div>
 
-              {/* PRICE FILTER */}
-              <div className="mb-10">
-                <label className="text-[9px] font-black text-slate-400 uppercase tracking-widest block mb-4">Budget Range</label>
-                <div className="space-y-2">
-                  <button onClick={() => setPriceRange("all")} className={`w-full text-left p-4 rounded-2xl text-[10px] font-black uppercase ${priceRange === 'all' ? 'bg-slate-900 text-white' : 'bg-slate-50 text-slate-400'}`}>Any Price</button>
-                  <button onClick={() => setPriceRange("under-2")} className={`w-full text-left p-4 rounded-2xl text-[10px] font-black uppercase ${priceRange === 'under-2' ? 'bg-slate-900 text-white' : 'bg-slate-50 text-slate-400'}`}>Under ₹2 Cr</button>
-                  <button onClick={() => setPriceRange("2-5")} className={`w-full text-left p-4 rounded-2xl text-[10px] font-black uppercase ${priceRange === '2-5' ? 'bg-slate-900 text-white' : 'bg-slate-50 text-slate-400'}`}>₹2 Cr - ₹5 Cr</button>
-                  <button onClick={() => setPriceRange("above-5")} className={`w-full text-left p-4 rounded-2xl text-[10px] font-black uppercase ${priceRange === 'above-5' ? 'bg-slate-900 text-white' : 'bg-slate-50 text-slate-400'}`}>Above ₹5 Cr</button>
-                </div>
-              </div>
+            <div>
+              <label className="text-[9px] font-black text-slate-400 uppercase tracking-widest block mb-4">Location</label>
+              <select onChange={(e) => setSelectedArea(e.target.value)} className="w-full p-4 bg-slate-50 rounded-2xl text-[10px] font-black uppercase outline-none border border-slate-100">
+                <option value="all">Everywhere</option>
+                <option value="Satellite">Satellite</option>
+                <option value="Bopal">Bopal</option>
+                <option value="Bodakdev">Bodakdev</option>
+              </select>
             </div>
           </aside>
 
-          {/* 💎 TOTAL INVENTORY GRID */}
+          {/* 💎 INVENTORY (2-Columns Mobile Fix) */}
           <div className="flex-1">
-            <div className="flex justify-between items-center mb-10">
-              <h2 className="text-2xl font-black text-slate-900 uppercase italic">Total Collection ({filtered.length})</h2>
-              <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Ahmedabad, GJ</p>
+            <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-8">
+              {filtered.map(p => (
+                <PropertyCard key={p.id} id={p.id} title={p.title} price={p.price} location={p.location} image={p.main_image} />
+              ))}
             </div>
-
-            {filtered.length > 0 ? (
-              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
-                {filtered.map(p => (
-                  <PropertyCard key={p.id} id={p.id} title={p.title} price={p.price} location={p.location} image={p.main_image} />
-                ))}
-              </div>
-            ) : (
-              <div className="h-[50vh] flex flex-col items-center justify-center bg-white rounded-[3rem] border-2 border-dashed border-slate-100">
-                <Search size={40} className="text-slate-200 mb-4" />
-                <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">No Properties found matching these criteria</p>
-              </div>
-            )}
           </div>
         </div>
       </div>
