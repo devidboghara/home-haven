@@ -100,9 +100,14 @@ export default function Home() {
       </section>
 
       {/* FLOATING CHAT */}
-      <Link href="/profile" className="fixed bottom-10 right-10 z-50 bg-[#0051A1] text-white p-5 rounded-full shadow-2xl hover:scale-110 transition-all">
+            <Link href="/profile" className="fixed bottom-10 right-10 z-50 bg-blue-600/40 backdrop-blur-md text-white p-5 rounded-full shadow-2xl hover:scale-110 hover:bg-blue-600/90 transition-all border border-white/20 group">
+  <MessageCircle size={24} />
+  {/* Tooltip text ko bhi thoda transparent black rakhte hain */}
+  <div className="absolute right-full mr-4 top-1/2 -translate-y-1/2 bg-slate-900/80 backdrop-blur-md text-white px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest opacity-0 group-hover:opacity-100 whitespace-nowrap transition-all">
+    Chat with Admin
+  </div>
+</Link>
         <MessageCircle size={24} />
-      </Link>
     </main>
   );
 }
