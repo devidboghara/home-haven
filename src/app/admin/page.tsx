@@ -1,89 +1,76 @@
 "use client";
 
 const columns = [
-  {
-    title: "New",
-    count: 14,
-    color: "border-purple-300",
-  },
-  {
-    title: "Viewing Scheduled",
-    count: 1,
-    color: "border-orange-300",
-  },
-  {
-    title: "Negotiation",
-    count: 6,
-    color: "border-blue-300",
-  },
-  {
-    title: "Legal & Documentation",
-    count: 1,
-    color: "border-green-300",
-  },
+  { title: "New", color: "border-purple-300" },
+  { title: "Viewing Scheduled", color: "border-orange-300" },
+  { title: "Negotiation", color: "border-blue-300" },
+  { title: "Legal & Documentation", color: "border-green-300" },
 ];
 
-export default function AdminDashboard() {
+export default function AdminPage() {
   return (
     <div>
-      {/* HEADER */}
+
+      {/* TITLE */}
       <h1 className="text-2xl font-semibold mb-6">Deals pipeline</h1>
 
-      {/* STATS */}
-      <div className="grid grid-cols-3 gap-6 mb-6">
-        <StatCard title="Total Asset Volume" value="24.5M AED" />
-        <StatCard title="Commission" value="490K AED" />
-        <StatCard title="Viewings Booked" value="20" />
+      {/* TOP STATS */}
+      <div className="grid grid-cols-4 gap-4 mb-6">
+
+        <Stat title="Total Asset Volume" value="24.5M AED" />
+        <Stat title="Commission" value="490K AED" />
+        <Stat title="Viewings Booked" value="20" />
+        <Stat title="Win Rate" value="12%" />
+
       </div>
 
       {/* BOARD */}
       <div className="grid grid-cols-4 gap-6">
+
         {columns.map((col, i) => (
           <div
             key={i}
             className={`bg-white rounded-xl p-4 border ${col.color}`}
           >
-            <div className="flex justify-between mb-4">
-              <h3 className="font-semibold text-sm">
-                {col.title} ({col.count})
-              </h3>
-            </div>
+            <h3 className="text-sm font-semibold mb-4">{col.title}</h3>
 
-            {/* CARD */}
             <div className="space-y-4">
-              <DealCard />
-              <DealCard />
+
+              <Card />
+              <Card />
+
             </div>
           </div>
         ))}
+
       </div>
     </div>
   );
 }
 
-function StatCard({ title, value }: any) {
+function Stat({ title, value }: any) {
   return (
-    <div className="bg-white p-4 rounded-xl border border-gray-200">
+    <div className="bg-white border border-[#e5e7eb] p-4 rounded-xl">
       <p className="text-xs text-gray-500">{title}</p>
       <h2 className="text-lg font-semibold mt-1">{value}</h2>
     </div>
   );
 }
 
-function DealCard() {
+function Card() {
   return (
-    <div className="bg-gray-50 p-3 rounded-lg border border-gray-200">
-      
+    <div className="bg-[#f9fafb] border border-[#e5e7eb] rounded-xl p-3">
+
       <div className="flex gap-3">
         <div className="w-16 h-16 bg-gray-200 rounded-md"></div>
 
-        <div className="flex-1">
+        <div>
           <p className="text-xs text-gray-500">
-            3-bedroom apartment in UAE
+            3-bedroom in UAE — Apartment
           </p>
-          <h4 className="font-semibold text-sm mt-1">
+          <p className="text-sm font-semibold mt-1">
             2,450,000 AED
-          </h4>
+          </p>
         </div>
       </div>
 
