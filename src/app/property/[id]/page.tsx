@@ -22,6 +22,7 @@ export default function PropertyDetail() {
   useEffect(() => {
     async function fetchProperty() {
       const { data: p, error } = await supabase.from('properties').select('*').eq('id', id).single();
+// Iske neeche kuch change nahi karna, fetch same rahega.
       if (!error) setData(p);
       setLoading(false);
     }
@@ -40,8 +41,8 @@ export default function PropertyDetail() {
   if (loading) return <div className="h-screen flex items-center justify-center bg-white font-black italic text-[#0051A1]">LUXELAIR...</div>;
   if (!data) return <div className="h-screen flex items-center justify-center">Property Not Found</div>;
 
-  const nextImg = () => { setCurrentImg((prev) => (prev + 1) % data.additional_images.length); setHasSwiped(true); };
-  const prevImg = () => { setCurrentImg((prev) => (prev - 1 + data.additional_images.length) % data.additional_images.length); setHasSwiped(true); };
+  const nextImg = () => { setCurrentImg((prev) => (prev + 1) % data.gallery.length); setHasSwiped(true); };
+  const prevImg = () => { setCurrentImg((prev) => (prev - 1 + data.gallery.length) % data.gallery.length); setHasSwiped(true); };
 
   return (
     <main className="min-h-screen bg-[#F8FAFC] pb-20 pt-32 px-6">
@@ -86,7 +87,7 @@ export default function PropertyDetail() {
                 className="w-full h-full cursor-grab active:cursor-grabbing relative"
               >
                 <img 
-                  src={data.additional_images[currentImg]} 
+                  src={data.gallery[currentImg].url} 
                   className="w-full h-full object-cover pointer-events-none" 
                   alt="Property" 
                 />
@@ -94,7 +95,7 @@ export default function PropertyDetail() {
                 {/* DYNAMIC LABEL (Hall, Kitchen, etc.) */}
                 <div className="absolute bottom-6 left-6 px-5 py-2.5 bg-white/90 backdrop-blur-md rounded-2xl border border-white shadow-xl">
                   <p className="text-[10px] font-black uppercase tracking-[0.2em] text-[#0051A1]">
-                    {imageLabels[currentImg] || "Interior Detail"}
+                    {data.gallery[currentImg].label || "Luxury Interior"}
                   </p>
                 </div>
               </motion.div>
