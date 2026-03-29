@@ -198,8 +198,10 @@ export default function PropertyDetail() {
         {isZoomed && (
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 z-[200] bg-black/95 flex items-center justify-center p-4 cursor-zoom-out" onClick={() => setIsZoomed(false)}>
             <button className="absolute top-10 right-10 text-white"><X size={40} /></button>
-            <img src={data.gallery && data.gallery[currentImg] ? data.gallery[currentImg].url : data.main_image} className="max-w-full max-h-[90vh] rounded-xl shadow-2xl" />
-          </motion.div>
+            <img 
+  src={data.gallery?.[currentImg]?.url || data.main_image} 
+  className="max-w-full max-h-[90vh] rounded-xl shadow-2xl" 
+/> </motion.div>
         )}
       </AnimatePresence>
     </main>
