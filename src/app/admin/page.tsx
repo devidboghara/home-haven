@@ -1,126 +1,113 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { 
-  Users, TrendingUp, IndianRupee, Target, Eye, 
-  MapPin, Clock, MoreVertical, MessageSquare, 
-  CheckCircle, AlertCircle, Calendar 
-} from "lucide-react";
-
-const columns = [
-  { title: "New Opportunities", color: "border-t-purple-500", count: 4, bg: "bg-purple-50" },
-  { title: "Site Viewing", color: "border-t-orange-500", count: 12, bg: "bg-orange-50" },
-  { title: "Negotiation", color: "border-t-blue-500", count: 3, bg: "bg-blue-50" },
-  { title: "Closing & Legal", color: "border-t-green-500", count: 5, bg: "bg-green-50" },
-];
+import { MapPin, Clock, MoreVertical, IndianRupee, ArrowUpRight, TrendingUp } from "lucide-react";
 
 export default function AdminPage() {
   return (
-    <div className="space-y-10">
+    <div className="space-y-12">
       
-      {/* 🚀 CONSOLE DASHBOARD HEADER */}
+      {/* 🏛️ HEADER SECTION */}
       <div className="flex justify-between items-end">
         <div>
-          <h1 className="text-3xl font-black text-slate-900 uppercase italic tracking-tighter leading-none">Deals Pipeline</h1>
-          <p className="text-[10px] font-black text-slate-400 mt-3 uppercase tracking-[0.4em]">Advanced CRM Portfolio Management Console</p>
+          <h1 className="text-4xl font-black text-[#4A4036] uppercase italic tracking-tighter leading-none">Executive Dashboard</h1>
+          <p className="text-[10px] font-black text-[#BCB1A1] mt-3 uppercase tracking-[0.4em]">Portfolio & Deals Overview</p>
         </div>
-        <div className="flex gap-4">
-          <div className="flex -space-x-3">
-             {[1,2,3,4].map(i => <div key={i} className="w-8 h-8 rounded-full border-2 border-white bg-slate-200 flex items-center justify-center text-[10px] font-black uppercase italic">A{i}</div>)}
-             <div className="w-8 h-8 rounded-full border-2 border-white bg-slate-900 text-white flex items-center justify-center text-[10px] font-black">+5</div>
-          </div>
-        </div>
+        <button className="bg-[#C5A27D] text-white px-10 py-4 rounded-full text-[10px] font-black uppercase tracking-widest shadow-xl shadow-[#C5A27D]/20 hover:bg-[#8D7B68] transition-all">
+          + Initialize New Deal
+        </button>
       </div>
 
-      {/* 📊 KPI ROW: BUSINESS INTELLIGENCE */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <Stat icon={<IndianRupee size={14}/>} title="Asset Vol." value="24.5M" trend="+12.5%" />
-        <Stat icon={<TrendingUp size={14}/>} title="Est. Commission" value="₹4.90L" trend="+8.2%" />
-        <Stat icon={<Eye size={14}/>} title="Viewings" value="120" trend="+40" />
-        <Stat icon={<Target size={14}/>} title="Closure Rate" value="12.8%" trend="+0.4%" />
+      {/* 📊 ANALYTICS SECTION (Seamless Design) */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <Stat title="Pipeline Value" value="₹24.5 Cr" trend="+12.5%" />
+        <Stat title="Commission" value="₹4.90 L" trend="+8.2%" />
+        <Stat title="Booked Tours" value="48" trend="+15" />
+        <Stat title="Conversion" value="14.2%" trend="+1.4%" />
       </div>
 
-      {/* 📦 KANBAN INTERFACE */}
-      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-8 h-full overflow-hidden">
-        {columns.map((col, i) => (
-          <div key={i} className="flex flex-col min-h-[600px]">
-            <div className={`flex items-center justify-between mb-6 p-4 bg-white border-t-4 ${col.color} rounded-2xl shadow-sm`}>
-              <h3 className="text-[11px] font-black uppercase text-slate-900 tracking-widest italic">{col.title}</h3>
-              <span className={`px-3 py-1 rounded-full text-[10px] font-black ${col.bg} text-slate-600`}>{col.count}</span>
-            </div>
-
-            <div className="space-y-5">
-              <DealCard 
-                property="Modern Villa" 
-                location="Satellite, Ahmedabad" 
-                price="₹4.50 Cr" 
-                client="Aarav Shah" 
-                status="High Priority"
-                date="Today, 04:30 PM"
-              />
-              <DealCard 
-                property="Aura Penthouse" 
-                location="Bopal" 
-                price="₹2.80 Cr" 
-                client="Rahul Mehta" 
-                status="Site Visit Done"
-                date="28 Mar, 11:20 AM"
-              />
-            </div>
+      {/* 📦 KANBAN PIPELINE SECTION */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
+        
+        {/* MAIN BOARD SECTION */}
+        <div className="lg:col-span-2 space-y-8">
+          <h3 className="text-[12px] font-black uppercase tracking-[0.3em] text-[#8D7B68] border-b border-[#E8E2D9] pb-4 italic">Active Pipeline</h3>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+             <DealCard 
+               property="Saffron Villa" 
+               location="Satellite" 
+               price="₹4.50 Cr" 
+               status="In Negotiation"
+               client="Aarav Shah"
+             />
+             <DealCard 
+               property="Skyline Penthouse" 
+               location="Bopal" 
+               price="₹2.80 Cr" 
+               status="Viewing Scheduled"
+               client="Meera Gupta"
+             />
           </div>
-        ))}
+        </div>
+
+        {/* SIDE CONTEXT SECTION (Activity) */}
+        <div className="bg-white p-10 rounded-[3rem] border border-[#E8E2D9] shadow-sm">
+           <h3 className="text-[11px] font-black uppercase tracking-[0.2em] text-[#8D7B68] mb-8 border-b border-[#F9F7F2] pb-4">Recent Activity</h3>
+           <div className="space-y-8">
+              <ActivityItem label="New Inquiry" detail="3-BHK Apartment in Ahmedabad" time="10m ago" />
+              <ActivityItem label="Visit Completed" detail="Saffron Villa - Aarav Shah" time="2h ago" />
+              <ActivityItem label="Deal Closed" detail="Luxe Studio #104" time="5h ago" />
+           </div>
+        </div>
       </div>
     </div>
   );
 }
 
-function Stat({ title, value, icon, trend }: any) {
+function Stat({ title, value, trend }: any) {
   return (
-    <div className="bg-white border border-slate-100 p-6 rounded-[2rem] shadow-sm group hover:border-blue-200 transition-all">
-      <div className="flex justify-between items-start mb-4">
-        <div className="p-3 bg-blue-50 text-blue-600 rounded-2xl group-hover:bg-blue-600 group-hover:text-white transition-all">
-          {icon}
-        </div>
-        <span className="text-[9px] font-black text-green-500 bg-green-50 px-2 py-1 rounded-lg uppercase">{trend}</span>
+    <div className="bg-white p-8 rounded-[2.5rem] border border-[#E8E2D9] shadow-sm flex flex-col justify-between h-40">
+      <div className="flex justify-between items-start">
+        <p className="text-[9px] font-black text-[#BCB1A1] uppercase tracking-widest">{title}</p>
+        <span className="text-[9px] font-black text-[#C5A27D] bg-[#F9F7F2] px-2 py-1 rounded-lg">{trend}</span>
       </div>
-      <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest">{title}</p>
-      <h2 className="text-2xl font-black text-slate-900 mt-1 italic tracking-tighter uppercase">{value}</h2>
+      <h2 className="text-3xl font-black text-[#4A4036] italic tracking-tighter uppercase">{value}</h2>
     </div>
   );
 }
 
-function DealCard({ property, location, price, client, status, date }: any) {
+function DealCard({ property, location, price, status, client }: any) {
   return (
-    <motion.div whileHover={{ y: -5 }} className="bg-white p-5 rounded-[2rem] border border-slate-100 shadow-sm hover:shadow-xl transition-all group">
-      <div className="flex gap-4 mb-5">
-        <div className="w-16 h-16 bg-slate-100 rounded-2xl overflow-hidden shrink-0 group-hover:scale-105 transition-transform duration-500">
-           <img src="https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=400" className="w-full h-full object-cover" />
-        </div>
+    <div className="bg-white p-8 rounded-[3rem] border border-[#E8E2D9] shadow-sm hover:border-[#C5A27D] transition-all group">
+      <div className="flex items-center gap-2 mb-4">
+        <MapPin size={12} className="text-[#C5A27D]" />
+        <span className="text-[9px] font-black text-[#BCB1A1] uppercase tracking-[0.2em]">{location}</span>
+      </div>
+      <h4 className="text-xl font-black text-[#4A4036] uppercase italic tracking-tighter leading-none">{property}</h4>
+      <p className="text-2xl font-black text-[#C5A27D] mt-4 tracking-tighter">{price}</p>
+      
+      <div className="mt-8 pt-8 border-t border-[#F9F7F2] flex justify-between items-center">
         <div>
-          <div className="flex items-center gap-1 text-[9px] font-black text-blue-600 uppercase tracking-widest mb-1">
-             <MapPin size={10} /> {location}
-          </div>
-          <h4 className="text-[12px] font-black text-slate-900 uppercase italic tracking-tighter leading-none">{property}</h4>
-          <p className="text-[11px] font-black text-slate-400 mt-2 uppercase tracking-tight">{price}</p>
+          <p className="text-[8px] font-black text-[#BCB1A1] uppercase tracking-widest mb-1">Client</p>
+          <p className="text-[10px] font-bold text-[#8D7B68]">{client}</p>
+        </div>
+        <div className="bg-[#F9F7F2] px-4 py-2 rounded-full text-[8px] font-black text-[#C5A27D] uppercase tracking-widest">
+          {status}
         </div>
       </div>
+    </div>
+  );
+}
 
-      <div className="space-y-4">
-        <div className="flex items-center justify-between pt-4 border-t border-slate-50">
-           <div className="flex items-center gap-2">
-             <div className="w-6 h-6 rounded-full bg-slate-900 text-white text-[8px] font-black flex items-center justify-center">AS</div>
-             <span className="text-[10px] font-bold text-slate-600 tracking-tight">{client}</span>
-           </div>
-           <button className="text-slate-300 hover:text-slate-900"><MoreVertical size={16}/></button>
-        </div>
-
-        <div className="flex items-center justify-between">
-           <span className="text-[8px] font-black text-blue-500 bg-blue-50 px-3 py-1 rounded-full uppercase tracking-widest">{status}</span>
-           <div className="flex items-center gap-1 text-[8px] font-bold text-slate-300">
-              <Clock size={10} /> {date}
-           </div>
-        </div>
+function ActivityItem({ label, detail, time }: any) {
+  return (
+    <div className="flex justify-between items-start">
+      <div>
+        <p className="text-[10px] font-black text-[#4A4036] uppercase tracking-widest">{label}</p>
+        <p className="text-[9px] font-medium text-[#BCB1A1] mt-1">{detail}</p>
       </div>
-    </motion.div>
+      <span className="text-[8px] font-black text-[#E8E2D9] uppercase">{time}</span>
+    </div>
   );
 }
