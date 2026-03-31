@@ -1,7 +1,5 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer"; // 👈 Ye line check karo
 
 export const metadata: Metadata = {
   title: "LuxeLair | Luxury Real Estate",
@@ -16,9 +14,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="antialiased bg-[#F8FAFC]">
-        <Navbar />
         {children}
-        <Footer /> {/* 👈 Yahan Footer add kiya */}
       </body>
     </html>
   );
