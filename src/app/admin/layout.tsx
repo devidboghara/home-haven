@@ -44,6 +44,7 @@ const navGroups = [
       { label: "Pipeline", href: "/admin/pipeline", icon: GitBranch, badge: "10" },
       { label: "Properties", href: "/admin/properties", icon: Building2 },
       { label: "Agents", href: "/admin/agents", icon: UserCheck },
+      { label: "Contacts", href: "/admin/contacts", icon: Users },
       { label: "Customers", href: "/admin/customers", icon: Users },
       { label: "Orders", href: "/admin/orders", icon: ShoppingCart },
       { label: "Transactions", href: "/admin/transactions", icon: ArrowLeftRight },
