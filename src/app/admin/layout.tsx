@@ -4,34 +4,13 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
 import {
-  LayoutDashboard,
-  GitBranch,
-  Building2,
-  Users,
-  UserCheck,
-  ShoppingCart,
-  ArrowLeftRight,
-  Star,
-  MessageSquare,
-  Inbox,
-  Tag,
-  FileText,
-  CalendarDays,
-  BarChart3,
-  Users2,
-  UserCircle,
-  Settings,
-  Bell,
-  Search,
-  Moon,
-  Sun,
-  Maximize2,
-  ChevronDown,
-  Home,
-  Menu,
-  X,
-  PanelLeftClose,
-  PanelLeft,
+  LayoutDashboard, GitBranch, Building2, Users, UserCheck,
+  ShoppingCart, ArrowLeftRight, Star, MessageSquare, Inbox,
+  Tag, FileText, CalendarDays, BarChart3, Users2, UserCircle,
+  Settings, Bell, Search, Moon, Sun, Maximize2, ChevronDown,
+  Home, Menu, X, PanelLeftClose, PanelLeft, Wrench, FolderOpen,
+  DollarSign, CheckSquare, TrendingUp, Megaphone, ClipboardList,
+  ChevronRight, Wallet,
 } from "lucide-react";
 
 // ── Nav Structure ─────────────────────────────────────────────────────────────
@@ -40,34 +19,48 @@ const navGroups = [
   {
     label: "Menu",
     items: [
-      { label: "Dashboard", href: "/admin", icon: LayoutDashboard },
-      { label: "Pipeline", href: "/admin/pipeline", icon: GitBranch, badge: "10" },
-      { label: "Properties", href: "/admin/properties", icon: Building2 },
-      { label: "Agents", href: "/admin/agents", icon: UserCheck },
-      { label: "Contacts", href: "/admin/contacts", icon: Users },
-      { label: "Customers", href: "/admin/customers", icon: Users },
-      { label: "Orders", href: "/admin/orders", icon: ShoppingCart },
-      { label: "Transactions", href: "/admin/transactions", icon: ArrowLeftRight },
-      { label: "Reviews", href: "/admin/reviews", icon: Star },
-      { label: "Messages", href: "/admin/messages", icon: MessageSquare, badge: "5" },
-      { label: "Inbox", href: "/admin/inbox", icon: Inbox },
+      { label: "Dashboard",     href: "/admin",               icon: LayoutDashboard },
+      { label: "Pipeline",      href: "/admin/pipeline",      icon: GitBranch,       badge: "10" },
+      { label: "Properties",    href: "/admin/properties",    icon: Building2        },
+      { label: "Agents",        href: "/admin/agents",        icon: UserCheck        },
+      { label: "Customers",     href: "/admin/customers",     icon: Users            },
+      { label: "Orders",        href: "/admin/orders",        icon: ShoppingCart     },
+      { label: "Transactions",  href: "/admin/transactions",  icon: ArrowLeftRight   },
+      { label: "Reviews",       href: "/admin/reviews",       icon: Star             },
+      { label: "Messages",      href: "/admin/messages",      icon: MessageSquare,   badge: "5" },
+      { label: "Inbox",         href: "/admin/inbox",         icon: Inbox            },
     ],
   },
   {
     label: "Management",
     items: [
-      { label: "Offers", href: "/admin/offers", icon: Tag },
-      { label: "Contracts", href: "/admin/contracts", icon: FileText },
-      { label: "Calendar", href: "/admin/calendar", icon: CalendarDays },
-      { label: "Reports", href: "/admin/reports", icon: BarChart3 },
+      { label: "Offers",        href: "/admin/offers",        icon: Tag              },
+      { label: "Contracts",     href: "/admin/contracts",     icon: FileText         },
+      { label: "Calendar",      href: "/admin/calendar",      icon: CalendarDays     },
+      { label: "Tasks",         href: "/admin/tasks",         icon: CheckSquare      },
+      { label: "Invoices",      href: "/admin/invoices",      icon: DollarSign       },
+      { label: "Payments",      href: "/admin/payments",      icon: Wallet           },
+      { label: "Commissions",   href: "/admin/commissions",   icon: TrendingUp       },
+      { label: "Leads",         href: "/admin/leads",         icon: ClipboardList    },
+      { label: "Marketing",     href: "/admin/marketing",     icon: Megaphone        },
+    ],
+  },
+  {
+    label: "Operations",
+    items: [
+      { label: "Maintenance",   href: "/admin/maintenance",   icon: Wrench           },
+      { label: "Documents",     href: "/admin/documents",     icon: FolderOpen       },
+      { label: "Workflows",     href: "/admin/workflows",     icon: GitBranch        },
+      { label: "Reports",       href: "/admin/reports",       icon: BarChart3        },
+      { label: "Notifications", href: "/admin/notifications", icon: Bell,            badge: "3" },
     ],
   },
   {
     label: "Settings",
     items: [
-      { label: "Team", href: "/admin/team", icon: Users2 },
-      { label: "Profile", href: "/admin/profile", icon: UserCircle },
-      { label: "Settings", href: "/admin/settings", icon: Settings },
+      { label: "Team",          href: "/admin/team",          icon: Users2           },
+      { label: "Profile",       href: "/admin/profile",       icon: UserCircle       },
+      { label: "Settings",      href: "/admin/settings",      icon: Settings         },
     ],
   },
 ];
@@ -79,12 +72,7 @@ function NavItem({
   isActive,
   collapsed,
 }: {
-  item: {
-    label: string;
-    href: string;
-    icon: React.ElementType;
-    badge?: string;
-  };
+  item: { label: string; href: string; icon: React.ElementType; badge?: string };
   isActive: boolean;
   collapsed: boolean;
 }) {
@@ -97,19 +85,16 @@ function NavItem({
       className={`
         flex items-center gap-2.5 px-3 py-2 rounded-xl text-[13px] font-medium
         transition-all duration-150 group relative
-        ${
-          isActive
-            ? "bg-[#111] text-white shadow-sm"
-            : "text-[#7C7870] hover:bg-[#F0EDE6] hover:text-[#111]"
+        ${isActive
+          ? "bg-[#111] text-white shadow-sm"
+          : "text-[#7C7870] hover:bg-[#F0EDE6] hover:text-[#111]"
         }
       `}
     >
       <Icon
         size={15}
         className={`shrink-0 transition-colors ${
-          isActive
-            ? "text-white"
-            : "text-[#A8A49C] group-hover:text-[#111]"
+          isActive ? "text-white" : "text-[#A8A49C] group-hover:text-[#111]"
         }`}
       />
 
@@ -139,7 +124,6 @@ function NavItem({
               {item.badge}
             </span>
           )}
-          {/* Arrow */}
           <div className="absolute right-full top-1/2 -translate-y-1/2 border-4 border-transparent border-r-[#111]" />
         </div>
       )}
@@ -147,17 +131,69 @@ function NavItem({
   );
 }
 
+// ── Collapsible Nav Group ─────────────────────────────────────────────────────
+
+function NavGroup({
+  group,
+  pathname,
+  collapsed,
+  defaultOpen = true,
+}: {
+  group: typeof navGroups[0];
+  pathname: string;
+  collapsed: boolean;
+  defaultOpen?: boolean;
+}) {
+  const [open, setOpen] = useState(defaultOpen);
+  const hasActive = group.items.some((item) => pathname === item.href);
+
+  // Keep open if has active item
+  useEffect(() => {
+    if (hasActive) setOpen(true);
+  }, [hasActive]);
+
+  return (
+    <div>
+      {!collapsed ? (
+        <button
+          onClick={() => setOpen(!open)}
+          className="w-full flex items-center justify-between px-3 mb-1.5 group"
+        >
+          <p className="text-[10px] font-bold text-[#C5BFB5] tracking-widest uppercase group-hover:text-[#A8A49C] transition-colors">
+            {group.label}
+          </p>
+          <ChevronRight
+            size={11}
+            className={`text-[#C5BFB5] transition-transform ${open ? "rotate-90" : ""}`}
+          />
+        </button>
+      ) : (
+        <div className="border-t border-[#EDEAE3] mb-2 mt-1" />
+      )}
+
+      {(open || collapsed) && (
+        <div className="space-y-0.5">
+          {group.items.map((item) => (
+            <NavItem
+              key={item.href}
+              item={item}
+              isActive={pathname === item.href}
+              collapsed={collapsed}
+            />
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
 // ── Layout ────────────────────────────────────────────────────────────────────
 
-export default function AdminLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function AdminLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const [collapsed, setCollapsed] = useState(false);
-  const [darkMode, setDarkMode] = useState(false);
-  const [notifications] = useState(3);
+  const [darkMode, setDarkMode]   = useState(false);
+  const [notifications]           = useState(3);
   const [searchOpen, setSearchOpen] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
 
@@ -166,11 +202,7 @@ export default function AdminLayout({
   }, [pathname]);
 
   return (
-    <div
-      className={`flex h-screen overflow-hidden ${
-        darkMode ? "bg-[#0f1117]" : "bg-[#F4F5F7]"
-      }`}
-    >
+    <div className={`flex h-screen overflow-hidden ${darkMode ? "bg-[#0f1117]" : "bg-[#F4F5F7]"}`}>
       {/* Mobile overlay */}
       {mobileOpen && (
         <div
@@ -190,11 +222,7 @@ export default function AdminLayout({
         `}
       >
         {/* Logo */}
-        <div
-          className={`flex items-center gap-2.5 px-4 py-5 border-b border-[#EDEAE3] shrink-0 ${
-            collapsed ? "justify-center px-0" : ""
-          }`}
-        >
+        <div className={`flex items-center gap-2.5 px-4 py-5 border-b border-[#EDEAE3] shrink-0 ${collapsed ? "justify-center px-0" : ""}`}>
           <div className="w-[34px] h-[34px] rounded-xl bg-[#111] flex items-center justify-center shrink-0">
             <Home size={15} className="text-white" />
           </div>
@@ -211,26 +239,15 @@ export default function AdminLayout({
         </div>
 
         {/* Nav */}
-        <nav className="flex-1 overflow-y-auto py-4 px-2.5 space-y-5 scrollbar-none">
-          {navGroups.map((group) => (
-            <div key={group.label}>
-              {!collapsed && (
-                <p className="text-[10px] font-bold text-[#C5BFB5] tracking-widest uppercase px-3 mb-2">
-                  {group.label}
-                </p>
-              )}
-              {collapsed && <div className="border-t border-[#EDEAE3] mb-2" />}
-              <div className="space-y-0.5">
-                {group.items.map((item) => (
-                  <NavItem
-                    key={item.href}
-                    item={item}
-                    isActive={pathname === item.href}
-                    collapsed={collapsed}
-                  />
-                ))}
-              </div>
-            </div>
+        <nav className="flex-1 overflow-y-auto py-4 px-2.5 space-y-4 scrollbar-none">
+          {navGroups.map((group, i) => (
+            <NavGroup
+              key={group.label}
+              group={group}
+              pathname={pathname}
+              collapsed={collapsed}
+              defaultOpen={i < 2}
+            />
           ))}
         </nav>
 
@@ -245,27 +262,16 @@ export default function AdminLayout({
                 AD
               </div>
               <div className="flex-1 min-w-0">
-                <p className="text-[12px] font-bold text-[#111] truncate">
-                  Admin User
-                </p>
-                <p className="text-[10px] text-[#A8A49C] truncate">
-                  Super Admin
-                </p>
+                <p className="text-[12px] font-bold text-[#111] truncate">Admin User</p>
+                <p className="text-[10px] text-[#A8A49C] truncate">Super Admin</p>
               </div>
-              <Settings
-                size={13}
-                className="text-[#C5BFB5] group-hover:text-[#7C7870] shrink-0"
-              />
+              <Settings size={13} className="text-[#C5BFB5] group-hover:text-[#7C7870] shrink-0" />
             </Link>
           </div>
         )}
 
         {/* Collapse toggle */}
-        <div
-          className={`hidden lg:flex border-t border-[#EDEAE3] p-2.5 shrink-0 ${
-            collapsed ? "justify-center" : ""
-          }`}
-        >
+        <div className={`hidden lg:flex border-t border-[#EDEAE3] p-2.5 shrink-0 ${collapsed ? "justify-center" : ""}`}>
           <button
             onClick={() => setCollapsed(!collapsed)}
             className="flex items-center gap-2 px-3 py-2 rounded-xl text-[#A8A49C] hover:bg-[#F0EDE6] hover:text-[#111] transition-colors text-[12px] font-medium w-full"
@@ -286,12 +292,7 @@ export default function AdminLayout({
       <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
 
         {/* ── Topbar ── */}
-        <header
-          className={`
-            h-[60px] shrink-0 flex items-center gap-3 px-5
-            bg-white border-b border-[#E8E6E0]
-          `}
-        >
+        <header className="h-[60px] shrink-0 flex items-center gap-3 px-5 bg-white border-b border-[#E8E6E0]">
           {/* Mobile toggle */}
           <button
             className="lg:hidden p-2 rounded-xl text-[#7C7870] hover:bg-[#F4F5F7] transition-colors"
@@ -320,10 +321,7 @@ export default function AdminLayout({
                   className="bg-transparent text-[13px] text-[#111] placeholder-[#C5BFB5] outline-none w-full"
                   onBlur={() => setSearchOpen(false)}
                 />
-                <button
-                  onClick={() => setSearchOpen(false)}
-                  className="text-[#A8A49C] hover:text-[#111]"
-                >
+                <button onClick={() => setSearchOpen(false)} className="text-[#A8A49C] hover:text-[#111]">
                   <X size={13} />
                 </button>
               </div>
@@ -346,7 +344,6 @@ export default function AdminLayout({
             <button
               onClick={() => setDarkMode(!darkMode)}
               className="p-2 rounded-xl text-[#7C7870] hover:bg-[#F4F5F7] transition-colors"
-              title="Toggle dark mode"
             >
               {darkMode ? <Sun size={17} /> : <Moon size={17} />}
             </button>
@@ -354,59 +351,44 @@ export default function AdminLayout({
             {/* Fullscreen */}
             <button
               className="p-2 rounded-xl text-[#7C7870] hover:bg-[#F4F5F7] transition-colors"
-              title="Fullscreen"
               onClick={() => {
-                if (!document.fullscreenElement) {
-                  document.documentElement.requestFullscreen();
-                } else {
-                  document.exitFullscreen();
-                }
+                if (!document.fullscreenElement) document.documentElement.requestFullscreen();
+                else document.exitFullscreen();
               }}
             >
               <Maximize2 size={17} />
             </button>
 
             {/* Notifications */}
-            <button className="relative p-2 rounded-xl text-[#7C7870] hover:bg-[#F4F5F7] transition-colors">
+            <Link href="/admin/notifications"
+              className="relative p-2 rounded-xl text-[#7C7870] hover:bg-[#F4F5F7] transition-colors">
               <Bell size={17} />
               {notifications > 0 && (
                 <span className="absolute top-1.5 right-1.5 w-4 h-4 bg-indigo-500 text-white text-[9px] font-bold rounded-full flex items-center justify-center">
                   {notifications}
                 </span>
               )}
-            </button>
+            </Link>
 
             {/* Settings */}
-            <Link
-              href="/admin/settings"
-              className="p-2 rounded-xl text-[#7C7870] hover:bg-[#F4F5F7] transition-colors"
-            >
+            <Link href="/admin/settings"
+              className="p-2 rounded-xl text-[#7C7870] hover:bg-[#F4F5F7] transition-colors">
               <Settings size={17} />
             </Link>
 
-            {/* Divider */}
             <div className="w-px h-6 bg-[#E8E6E0] mx-1" />
 
             {/* Avatar */}
-            <Link
-              href="/admin/profile"
-              className="flex items-center gap-2 pl-1 rounded-xl hover:bg-[#F4F5F7] px-2 py-1.5 transition-colors group"
-            >
+            <Link href="/admin/profile"
+              className="flex items-center gap-2 pl-1 rounded-xl hover:bg-[#F4F5F7] px-2 py-1.5 transition-colors group">
               <div className="w-7 h-7 rounded-full bg-[#111] flex items-center justify-center text-white text-[11px] font-bold">
                 AD
               </div>
               <div className="hidden sm:block">
-                <p className="text-[12px] font-bold text-[#111] leading-none">
-                  Admin
-                </p>
-                <p className="text-[10px] text-[#A8A49C] mt-0.5">
-                  Super Admin
-                </p>
+                <p className="text-[12px] font-bold text-[#111] leading-none">Admin</p>
+                <p className="text-[10px] text-[#A8A49C] mt-0.5">Super Admin</p>
               </div>
-              <ChevronDown
-                size={12}
-                className="text-[#C5BFB5] hidden sm:block"
-              />
+              <ChevronDown size={12} className="text-[#C5BFB5] hidden sm:block" />
             </Link>
           </div>
         </header>
