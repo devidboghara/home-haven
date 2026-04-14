@@ -212,6 +212,31 @@ export default function MessagesPage() {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [activeContact, messages]);
 
+  // Supabase Realtime subscription for incoming messages
+  useEffect(() => {
+    const channel = supabase
+      .channel("messages-realtime")
+      .on(
+        "postgres_changes",
+        { event: "INSERT", schema: "public", table: "messages" },
+        (payload) => {
+          setMessages((prev) => {
+            const newMsg = payload.new as Message;
+            const contactId = newMsg.contact_id;
+            return {
+              ...prev,
+              [contactId]: [newMsg, ...(prev[contactId] || [])],
+            };
+          });
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, []);
+
   const handleSelectContact = (contact: Contact) => {
     setActiveContact(contact);
     // Mark as read

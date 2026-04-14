@@ -338,6 +338,35 @@ export default function PipelinePage() {
     fetchDeals();
   }, []);
 
+  // Supabase Realtime subscription for live deal updates
+  useEffect(() => {
+    const channel = supabase
+      .channel("pipeline-deals")
+      .on(
+        "postgres_changes",
+        { event: "*", schema: "public", table: "deals" },
+        (payload) => {
+          if (payload.eventType === "INSERT") {
+            const newDeal = payload.new as DealCard;
+            setDeals((prev) => [newDeal, ...prev]);
+          } else if (payload.eventType === "UPDATE") {
+            const updated = payload.new as DealCard;
+            setDeals((prev) =>
+              prev.map((d) => (d.id === updated.id ? { ...d, ...updated } : d))
+            );
+          } else if (payload.eventType === "DELETE") {
+            const deleted = payload.old as { id: string };
+            setDeals((prev) => prev.filter((d) => d.id !== deleted.id));
+          }
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, []);
+
   const fetchDeals = async () => {
     setLoading(true);
     try {
